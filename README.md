@@ -1,2 +1,93 @@
-# ComposeTakeAway
-Some tips for developers who will involve Jetpack Compose in new APPs
+# Compose TakeAway
+
+给即将用Jetpack Compose开发APP的开发人员
+
+### 1. Jetpack Compose vs Xml
+
+Pros：
+
+- 声明式UI，纯kotlin
+- UI自定义更简单(没有adapter, 更容易override,material design(主题、动画)支持更好)
+- API(21+)无关 - Unbundled
+- profile installer优化 android 9+
+
+Cons：
+
+- build性能差
+- priview支持，但不完善
+- 实现不透明(编译器)
+- recomposition 机制复杂
+
+### 2. Navigation between Composables - Good to go
+
+- 用Composable Screen替代Fragment
+- deeplink
+- 简单数据传输
+- 过度动画
+
+pros:
+
+1. 可以从ViewModel获取数据
+2. 与hilt集成完善
+
+cons:
+
+1. 跳转返回数据?
+2. 导航传数据，只能基本类型
+
+> 使用enro补充
+
+### 3. Architecture for compose
+
+- MVIntent -> MVIi
+- MVVMinteractor/Clean Arch
+
+- state太大怎么办 - 注意命名、分组
+
+- 多用state，少用event
+
+> a demo(TBC)
+
+### 4. Share state/data
+
+- Flow/Scoped Bus - 无状态
+- Repository/DB数据源
+
+- Composable官方方式，还没有
+- 跨Activity/Fragment - navigation, savedState
+
+### 5. with View - Enough for use
+
+- Android(Compose)View
+  - WebView
+  - 三方库
+- KeyEvent/MotionEvent/Gesture(API支持更好)
+- 自定义方式
+  1. Modifier 或自定义 Modifier
+  2. 组合已有组件
+  3. 使用drawContent等方法
+  4. 很少需要完全自定义
+
+### 6. Others
+
+- 什么时候用Activity，而不是Screen - 跨module、业务分割
+
+- 多用Preview
+- 数据驱动UI - 比data-binding好用
+- AdapterView(不需要adapter)更好用
+- 对新人友好，易上手
+- 优先使用组合，而不是集成
+- 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
+
+- 如何组织state：business state/pure ui state - 统一模式
+- single business state for one screen
+
+### 7. 三方库
+
+- accompanist
+- dev.enro
+- io.coil-kt
+
+- io.kotest
+- io.mockk
+- app.cash.turbine
