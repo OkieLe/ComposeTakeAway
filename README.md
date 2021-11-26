@@ -9,7 +9,12 @@ Pros：
 - 声明式UI，纯kotlin
 - 代码更少
 - 可直接兼容现有View
-- UI自定义更简单(没有adapter, 更容易override,material design(主题、动画)支持更好)
+- UI自定义更简单
+  - 没有adapter
+  - 更容易override
+  - material design(主题、动画等)支持更好
+  - KeyEvent/MotionEvent/Gesture 支持更好
+  - 常用系统API接口已提供
 - API(21+)无关 - Unbundled
 - 对新人友好，易上手
 
@@ -64,7 +69,6 @@ cons:
   - WebView
   - 三方库
   ...
-- KeyEvent/MotionEvent/Gesture(API支持更好)
 - 自定义方式
   1. Modifier 或自定义 Modifier
   2. 组合已有组件
