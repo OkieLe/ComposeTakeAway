@@ -17,10 +17,10 @@ Pros：
   - 常用系统API接口已提供
 - API(21+)无关，甚至跨平台Web/Desktop - Unbundled
 - 对新人友好，易上手
+- 纯compose build更快，APP更小（据官方说法）
 
 Cons：
 
-- build性能差
 - priview支持，但不完善
 - 实现不透明(编译器)
 - recomposition 机制复杂
