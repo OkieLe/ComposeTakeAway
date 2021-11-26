@@ -15,7 +15,7 @@ Pros：
   - material design(主题、动画等)支持更好
   - KeyEvent/MotionEvent/Gesture 支持更好
   - 常用系统API接口已提供
-- API(21+)无关 - Unbundled
+- API(21+)无关，甚至跨平台Web/Desktop - Unbundled
 - 对新人友好，易上手
 
 Cons：
@@ -41,10 +41,6 @@ Cons：
 
 - MVIntent -> MVIi
 - MVVMinteractor/Clean Arch
-
-- state太大怎么办 - 注意命名、分组
-
-- 多用state，少用event
 
 > a demo(TBC)
 
@@ -72,6 +68,7 @@ cons:
 - single business state for one screen
 - 数据(state)驱动UI - 比data-binding好用
 - 如何组织state：business state/pure ui state - 统一模式
+- state太大怎么办 - 注意命名、分组
 
 #### Share state/data
 
@@ -97,5 +94,6 @@ cons:
 
 - 多用Preview
 - 优先使用组合，而不是集成
+- 多用state，少用event
 - 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
 
