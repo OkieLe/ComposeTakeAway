@@ -81,15 +81,7 @@ cons:
 - Composable官方方式，还没有
 - 跨Activity/Fragment - navigation, savedState
 
-### 6. Others
-
-- 什么时候用Activity，而不是Screen - 跨module、业务分割
-
-- 多用Preview
-- 优先使用组合，而不是集成
-- 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
-
-### 7. 三方库
+### 6. 三方库
 
 - accompanist
 - dev.enro
@@ -98,3 +90,12 @@ cons:
 - io.kotest
 - io.mockk
 - app.cash.turbine
+
+### 7. Others
+
+- 什么时候用Activity，而不是Screen - 跨module、业务分割
+
+- 多用Preview
+- 优先使用组合，而不是集成
+- 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
+
