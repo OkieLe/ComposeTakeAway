@@ -9,7 +9,7 @@ Pros：
 - 声明式UI，纯kotlin
 - UI自定义更简单(没有adapter, 更容易override,material design(主题、动画)支持更好)
 - API(21+)无关 - Unbundled
-- profile installer优化 android 9+
+- 对新人友好，易上手
 
 Cons：
 
@@ -75,7 +75,6 @@ cons:
 - 多用Preview
 - 数据驱动UI - 比data-binding好用
 - AdapterView(不需要adapter)更好用
-- 对新人友好，易上手
 - 优先使用组合，而不是集成
 - 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
 
