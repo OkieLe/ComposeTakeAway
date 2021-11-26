@@ -8,7 +8,7 @@ Pros：
 
 - 声明式UI，纯kotlin
 - 代码更少
-- 可直接兼容现有View
+- 可直接兼容现有View - 双向兼容
 - UI自定义更简单
   - 没有adapter
   - 更容易override
@@ -21,8 +21,8 @@ Pros：
 
 Cons：
 
-- priview支持，但不完善
-- 实现不透明(编译器)
+- priview支持，但不完善(每次修改重新build)
+- 实现不透明(编译器-编译时处理)
 - recomposition 机制复杂
 
 ### 2. with View - Enough for use
