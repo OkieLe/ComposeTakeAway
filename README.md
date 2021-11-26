@@ -9,6 +9,7 @@ Pros：
 - 声明式UI，纯kotlin
 - 代码更少
 - 可直接兼容现有View - 双向兼容
+- 性能更好(measure次数减少...)
 - UI自定义更简单
   - 没有adapter
   - 更容易override
@@ -16,8 +17,8 @@ Pros：
   - KeyEvent/MotionEvent/Gesture 支持更好
   - 常用系统API接口已提供
 - API(21+)无关，甚至跨平台Web/Desktop - Unbundled
-- 对新人友好，易上手
 - 纯compose build更快，APP更小（据官方说法）
+- 对新人友好，易上手
 
 Cons：
 
