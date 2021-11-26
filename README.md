@@ -25,7 +25,30 @@ Cons：
 - 实现不透明(编译器)
 - recomposition 机制复杂
 
-### 2. Navigation between Composables - Good to go
+### 2. with View - Enough for use
+
+- Android(Compose)View用于封装旧的View
+  - WebView
+  - 三方库
+  ...
+- 自定义方式
+  1. Modifier 或自定义 Modifier
+  2. 组合已有组件
+  3. 使用drawContent等方法
+  4. 很少需要完全自定义
+
+### 3. Architecture for compose
+
+- MVIntent -> MVIi
+- MVVMinteractor/Clean Arch
+
+- state太大怎么办 - 注意命名、分组
+
+- 多用state，少用event
+
+> a demo(TBC)
+
+### 4. Navigation between Composables - Good to go
 
 - 用Composable Screen替代Fragment
 - deeplink
@@ -44,18 +67,13 @@ cons:
 
 > 使用enro补充
 
-### 3. Architecture for compose
+### 5. State
 
-- MVIntent -> MVIi
-- MVVMinteractor/Clean Arch
+- single business state for one screen
+- 数据(state)驱动UI - 比data-binding好用
+- 如何组织state：business state/pure ui state - 统一模式
 
-- state太大怎么办 - 注意命名、分组
-
-- 多用state，少用event
-
-> a demo(TBC)
-
-### 4. Share state/data
+#### Share state/data
 
 - Flow/Scoped Bus - 无状态
 - Repository/DB数据源
@@ -63,30 +81,13 @@ cons:
 - Composable官方方式，还没有
 - 跨Activity/Fragment - navigation, savedState
 
-### 5. with View - Enough for use
-
-- Android(Compose)View用于封装旧的View
-  - WebView
-  - 三方库
-  ...
-- 自定义方式
-  1. Modifier 或自定义 Modifier
-  2. 组合已有组件
-  3. 使用drawContent等方法
-  4. 很少需要完全自定义
-
 ### 6. Others
 
 - 什么时候用Activity，而不是Screen - 跨module、业务分割
 
 - 多用Preview
-- 数据驱动UI - 比data-binding好用
-- AdapterView(不需要adapter)更好用
 - 优先使用组合，而不是集成
 - 好像不太鼓励开发去了解SDK的实现，相关文档也没有 - 以后？
-
-- 如何组织state：business state/pure ui state - 统一模式
-- single business state for one screen
 
 ### 7. 三方库
 
