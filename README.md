@@ -58,9 +58,10 @@ cons:
 
 ### 5. with View - Enough for use
 
-- Android(Compose)View
+- Android(Compose)View用于封装旧的View
   - WebView
   - 三方库
+  ...
 - KeyEvent/MotionEvent/Gesture(API支持更好)
 - 自定义方式
   1. Modifier 或自定义 Modifier
