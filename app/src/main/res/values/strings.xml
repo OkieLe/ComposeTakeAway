@@ -2,4 +2,5 @@
     <string name="app_name">Dictionary Sample</string>
     <string name="search_label">Search</string>
     <string name="about_label">About</string>
+    <string name="clear_label">Clear</string>
 </resources>
