@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TakeAwaySample</string>
-    <string name="home_label">Home</string>
+    <string name="app_name">Dictionary Sample</string>
+    <string name="search_label">Search</string>
     <string name="about_label">About</string>
 </resources>

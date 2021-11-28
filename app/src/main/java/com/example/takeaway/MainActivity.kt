@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.takeaway.about.AboutScreen
 import com.example.takeaway.design.theme.TakeAwaySampleTheme
-import com.example.takeaway.home.HomeScreen
+import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.model.MainUiState
 import com.example.takeaway.model.Screen
 import com.example.takeaway.model.rememberMainUiState
@@ -38,11 +38,11 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = uiState.navController,
-                        startDestination = Screen.Home.route,
+                        startDestination = Screen.Search.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.Home.route) { HomeScreen(uiState) }
-                        composable(Screen.About.route) { AboutScreen(uiState) }
+                        composable(Screen.Search.route) { SearchScreen(uiState) }
+                        composable(Screen.About.route) { AboutScreen() }
                     }
                 }
             }

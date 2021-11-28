@@ -1,4 +1,4 @@
-package com.example.takeaway.home
+package com.example.takeaway.search
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -7,6 +7,6 @@ import com.example.takeaway.R
 import com.example.takeaway.model.MainUiState
 
 @Composable
-fun HomeScreen(uiState: MainUiState) {
-    Text(text = stringResource(id = R.string.home_label))
+fun SearchScreen(uiState: MainUiState) {
+    Text(text = stringResource(id = R.string.search_label))
 }

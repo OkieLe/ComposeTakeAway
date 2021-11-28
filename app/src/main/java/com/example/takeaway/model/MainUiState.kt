@@ -90,10 +90,10 @@ private fun resources(): Resources {
 }
 
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
-    object Home : Screen("Home", Icons.Filled.Search, R.string.home_label)
+    object Search : Screen("Search", Icons.Filled.Search, R.string.search_label)
     object About : Screen("About", Icons.Filled.Info, R.string.about_label)
 
     companion object {
-        val items = listOf(Home, About)
+        val items = listOf(Search, About)
     }
 }
