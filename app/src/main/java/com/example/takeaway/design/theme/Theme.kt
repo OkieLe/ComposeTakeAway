@@ -1,4 +1,4 @@
-package com.example.takeaway.ui.theme
+package com.example.takeaway.design.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

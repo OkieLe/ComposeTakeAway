@@ -1,4 +1,4 @@
-package com.example.takeaway.ui.theme
+package com.example.takeaway.design.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
