@@ -8,5 +8,5 @@ data class SearchState(
 
 sealed interface SearchStatus {
     object Loading: SearchStatus
-    data class Result(val wordInfo: List<WordInfo> = emptyList()): SearchStatus
+    data class Result(val wordInfoList: List<WordInfo> = emptyList()): SearchStatus
 }

@@ -4,4 +4,6 @@
     <string name="about_label">About</string>
     <string name="clear_label">Clear</string>
     <string name="search_box_hint">hello</string>
+    <string name="label_synonyms">Synonyms</string>
+    <string name="label_antonyms">Antonyms</string>
 </resources>

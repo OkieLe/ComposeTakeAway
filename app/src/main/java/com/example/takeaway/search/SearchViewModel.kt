@@ -11,18 +11,16 @@ import com.example.takeaway.search.model.SearchStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val dictionaryRepository: DictionaryRepository
 ): ViewModel() {
-    private val _state = Channel<SearchState>()
-    val state = _state.receiveAsFlow().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SearchState())
+    private val _state = MutableStateFlow(SearchState())
+    val state = _state.asStateFlow()
 
     fun submit(action: SearchAction) {
         when (action) {
@@ -45,7 +43,7 @@ class SearchViewModel @Inject constructor(
 
     private fun updateState(state: SearchState) {
         viewModelScope.launch {
-            _state.send(state)
+            _state.emit(state)
         }
     }
 }
