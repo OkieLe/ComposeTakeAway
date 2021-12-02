@@ -1,5 +1,7 @@
 package com.example.takeaway.search
 
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.LocaleList
 import com.example.takeaway.data.model.Definition
 import com.example.takeaway.data.model.Meaning
 import com.example.takeaway.data.model.Phonetic
@@ -15,7 +17,7 @@ class SearchStateMapper @Inject constructor() {
         return with(wordInfo) {
             WordItem(
                 text = word,
-                phonetics = phonetics.map(this@SearchStateMapper::toPhoneticItem),
+                phonetics = phonetics.filterNot { it.text.isNullOrBlank() }.map(this@SearchStateMapper::toPhoneticItem),
                 meanings = meanings.map(this@SearchStateMapper::toMeaningItem)
             )
         }
@@ -33,7 +35,7 @@ class SearchStateMapper @Inject constructor() {
     private fun toPhoneticItem(phonetic: Phonetic): PhoneticItem {
         return PhoneticItem(
             audio = phonetic.audio.orEmpty(),
-            text = phonetic.text
+            text = "\\${phonetic.text}\\"
         )
     }
 
@@ -41,7 +43,7 @@ class SearchStateMapper @Inject constructor() {
         return with(definition) {
             DefinitionItem(
                 text = this.definition,
-                example = example.orEmpty(),
+                example = example.orEmpty().capitalize(LocaleList()),
                 synonyms = synonyms.joinToString(),
                 antonyms = antonyms.joinToString()
             )

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -130,11 +131,10 @@ private fun WordInfoItem(wordInfo: WordItem) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .padding(vertical = 8.dp, horizontal = 8.dp)
     ) {
         WordText(wordInfo.text)
         PhoneticField(wordInfo.phonetics)
-        Spacer(modifier = Modifier.height(16.dp))
         MeaningsField(wordInfo.meanings)
     }
 }
@@ -143,13 +143,17 @@ private fun WordInfoItem(wordInfo: WordItem) {
 private fun MeaningsField(meanings: List<MeaningItem>) {
     meanings.forEach {
         Spacer(modifier = Modifier.height(12.dp))
-        PartOfSpeech(it.partOfSpeech.capitalize(LocaleList()))
-        it.definitions.forEachIndexed { index, definition ->
-            Text(
-                text = "${index+1}. ${definition.text}",
-                style = MaterialTheme.typography.body2
-            )
-            DefinitionItem(definition)
+        Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
+            Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                PartOfSpeech(it.partOfSpeech.capitalize(LocaleList()))
+                it.definitions.forEachIndexed { index, definition ->
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "${index + 1}. ${definition.text}", style = MaterialTheme.typography.body2
+                    )
+                    DefinitionItem(definition)
+                }
+            }
         }
     }
 }
@@ -157,7 +161,7 @@ private fun MeaningsField(meanings: List<MeaningItem>) {
 @Composable
 private fun DefinitionItem(definition: DefinitionItem) {
     definition.example.takeIf { it.isNotBlank() }?.let {
-        Text(text = "> ${it.capitalize(LocaleList())}",
+        Text(text = "i.e. $it",
             style = MaterialTheme.typography.body2,
             fontStyle = FontStyle.Italic
         )
@@ -200,7 +204,8 @@ private fun PhoneticField(phonetics: List<PhoneticItem>) {
 @Composable
 private fun PhoneticText(phonetic: PhoneticItem) {
     Text(
-        text = "[${phonetic.text}]",
+        modifier = Modifier.padding(horizontal = 8.dp),
+        text = phonetic.text,
         style = MaterialTheme.typography.body1
     )
 }
@@ -208,6 +213,7 @@ private fun PhoneticText(phonetic: PhoneticItem) {
 @Composable
 private fun WordText(word: String) {
     Text(
+        modifier = Modifier.padding(horizontal = 8.dp),
         text = word,
         style = MaterialTheme.typography.h6
     )

@@ -5,5 +5,5 @@ import androidx.annotation.Keep
 @Keep
 data class Phonetic(
     val audio: String?,
-    val text: String
+    val text: String?
 )
