@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val searchStateMapper: SearchStateMapper,
     private val dictionaryRepository: DictionaryRepository
 ): ViewModel() {
     private val _state = MutableStateFlow(SearchState())
@@ -36,8 +37,13 @@ class SearchViewModel @Inject constructor(
         updateState(SearchState(status = SearchStatus.Loading))
         viewModelScope.launch {
             dictionaryRepository.searchWord(word = word.trim())
-                .onSuccess { updateState(SearchState(status = SearchStatus.Result(it))) }
-                .onError { type, _ -> Timber.e("Search <$word> error $type") }
+                .onSuccess {
+                    val wordItems = it.map(searchStateMapper::toWordItem)
+                    updateState(SearchState(status = SearchStatus.Result(wordItems)))
+                }
+                .onError { type, _ ->
+                    Timber.e("Search <$word> error $type")
+                }
         }
     }
 

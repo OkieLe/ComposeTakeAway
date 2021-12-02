@@ -32,14 +32,14 @@ import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.takeaway.R
-import com.example.takeaway.data.model.Definition
-import com.example.takeaway.data.model.Meaning
-import com.example.takeaway.data.model.Phonetic
-import com.example.takeaway.data.model.WordInfo
 import com.example.takeaway.design.SearchTextField
 import com.example.takeaway.model.MainUiState
+import com.example.takeaway.search.model.DefinitionItem
+import com.example.takeaway.search.model.MeaningItem
+import com.example.takeaway.search.model.PhoneticItem
 import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchStatus
+import com.example.takeaway.search.model.WordItem
 
 @Composable
 fun SearchScreen(uiState: MainUiState) {
@@ -57,7 +57,7 @@ fun SearchScreen(uiState: MainUiState) {
         TopSearchBar(actor)
         when (val status = state.status) {
             SearchStatus.Loading -> LoadingIndicator()
-            is SearchStatus.Result -> WordInfoList(status.wordInfoList)
+            is SearchStatus.Result -> WordInfoList(status.wordItems)
         }
     }
 }
@@ -84,20 +84,20 @@ private fun LoadingIndicator() {
 }
 
 @Composable
-private fun WordInfoList(wordInfoList: List<WordInfo>) {
+private fun WordInfoList(wordItems: List<WordItem>) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(wordInfoList) { wordInfo ->
-            WordInfoItem(wordInfo)
+        items(wordItems) { wordItem ->
+            WordInfoItem(wordItem)
         }
     }
 }
 
 @Composable
-private fun WordInfoItem(wordInfo: WordInfo) {
+private fun WordInfoItem(wordInfo: WordItem) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
-        WordText(wordInfo.word)
+        WordText(wordInfo.text)
         PhoneticField(wordInfo.phonetics)
         Spacer(modifier = Modifier.height(16.dp))
         MeaningsField(wordInfo.meanings)
@@ -105,13 +105,13 @@ private fun WordInfoItem(wordInfo: WordInfo) {
 }
 
 @Composable
-private fun MeaningsField(meanings: List<Meaning>) {
+private fun MeaningsField(meanings: List<MeaningItem>) {
     meanings.forEach {
         Spacer(modifier = Modifier.height(12.dp))
         PartOfSpeech(it.partOfSpeech.capitalize(LocaleList()))
         it.definitions.forEachIndexed { index, definition ->
             Text(
-                text = "${index+1}. ${definition.definition}",
+                text = "${index+1}. ${definition.text}",
                 style = MaterialTheme.typography.body2
             )
             DefinitionItem(definition)
@@ -120,17 +120,17 @@ private fun MeaningsField(meanings: List<Meaning>) {
 }
 
 @Composable
-private fun DefinitionItem(definition: Definition) {
-    definition.example?.let {
+private fun DefinitionItem(definition: DefinitionItem) {
+    definition.example.takeIf { it.isNotBlank() }?.let {
         Text(text = "> ${it.capitalize(LocaleList())}",
             style = MaterialTheme.typography.body2,
             fontStyle = FontStyle.Italic
         )
     }
-    definition.synonyms.joinToString().takeIf { it.isNotBlank() }?.let {
+    definition.synonyms.takeIf { it.isNotBlank() }?.let {
         SynonymsOrAntonyms(label = stringResource(id = R.string.label_synonyms), words = it)
     }
-    definition.antonyms.joinToString().takeIf { it.isNotBlank() }?.let {
+    definition.antonyms.takeIf { it.isNotBlank() }?.let {
         SynonymsOrAntonyms(label = stringResource(id = R.string.label_antonyms), words = it)
     }
 }
@@ -156,14 +156,14 @@ private fun PartOfSpeech(partOfSpeech: String) {
 }
 
 @Composable
-private fun PhoneticField(phonetics: List<Phonetic>) {
+private fun PhoneticField(phonetics: List<PhoneticItem>) {
     phonetics.forEach {
-        PhoneticItem(phonetic = it)
+        PhoneticText(phonetic = it)
     }
 }
 
 @Composable
-private fun PhoneticItem(phonetic: Phonetic) {
+private fun PhoneticText(phonetic: PhoneticItem) {
     Text(
         text = "[${phonetic.text}]",
         style = MaterialTheme.typography.body1
