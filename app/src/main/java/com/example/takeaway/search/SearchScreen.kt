@@ -30,6 +30,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.takeaway.R
@@ -40,6 +41,7 @@ import com.example.takeaway.search.model.MeaningItem
 import com.example.takeaway.search.model.PhoneticItem
 import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchEvent
+import com.example.takeaway.search.model.SearchState
 import com.example.takeaway.search.model.SearchStatus
 import com.example.takeaway.search.model.WordItem
 import kotlinx.coroutines.flow.collectLatest
@@ -49,8 +51,24 @@ fun SearchScreen(uiState: MainUiState) {
     val viewModel: SearchViewModel = hiltViewModel()
     val actor = viewModel::submit
     val state by viewModel.state.collectAsState()
-    val focusManager = LocalFocusManager.current
     UiEffects(viewModel, uiState)
+    SearchScreenContent(state, actor)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchScreenPreview() {
+    SearchScreenContent(
+        state = SearchState(status = SearchStatus.Loading),
+        actor = {}
+    )
+}
+
+@Composable
+private fun SearchScreenContent(
+    state: SearchState, actor: (action: SearchAction) -> Unit
+) {
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .fillMaxSize()
