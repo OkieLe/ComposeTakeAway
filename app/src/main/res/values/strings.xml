@@ -6,4 +6,5 @@
     <string name="search_box_hint">hello</string>
     <string name="label_synonyms">Synonyms</string>
     <string name="label_antonyms">Antonyms</string>
+    <string name="error_message_unknown_error">Something went wrong! Try again later.</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,8 +39,10 @@ import com.example.takeaway.search.model.DefinitionItem
 import com.example.takeaway.search.model.MeaningItem
 import com.example.takeaway.search.model.PhoneticItem
 import com.example.takeaway.search.model.SearchAction
+import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchStatus
 import com.example.takeaway.search.model.WordItem
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SearchScreen(uiState: MainUiState) {
@@ -47,6 +50,7 @@ fun SearchScreen(uiState: MainUiState) {
     val actor = viewModel::submit
     val state by viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
+    UiEffects(viewModel, uiState)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,6 +62,17 @@ fun SearchScreen(uiState: MainUiState) {
         when (val status = state.status) {
             SearchStatus.Loading -> LoadingIndicator()
             is SearchStatus.Result -> WordInfoList(status.wordItems)
+        }
+    }
+}
+
+@Composable
+private fun UiEffects(viewModel: SearchViewModel, uiState: MainUiState) {
+    LaunchedEffect(Unit) {
+        viewModel.events.collectLatest { event ->
+            when(event) {
+                is SearchEvent.ShowError -> uiState.showSnackbar(R.string.error_message_unknown_error)
+            }
         }
     }
 }
@@ -95,7 +110,9 @@ private fun WordInfoList(wordItems: List<WordItem>) {
 @Composable
 private fun WordInfoItem(wordInfo: WordItem) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
         WordText(wordInfo.text)
         PhoneticField(wordInfo.phonetics)
