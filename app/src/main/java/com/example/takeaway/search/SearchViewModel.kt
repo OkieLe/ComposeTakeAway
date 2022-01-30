@@ -11,8 +11,6 @@ import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
 import com.example.takeaway.search.model.SearchStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,6 +18,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(

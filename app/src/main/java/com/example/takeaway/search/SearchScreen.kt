@@ -67,7 +67,8 @@ fun SearchScreenPreview() {
 
 @Composable
 private fun SearchScreenContent(
-    state: SearchState, actor: (action: SearchAction) -> Unit
+    state: SearchState,
+    actor: (action: SearchAction) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     Column(
@@ -89,7 +90,7 @@ private fun SearchScreenContent(
 private fun UiEffects(viewModel: SearchViewModel, uiState: MainUiState) {
     LaunchedEffect(Unit) {
         viewModel.events.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is SearchEvent.ShowError -> uiState.showSnackbar(R.string.error_message_unknown_error)
             }
         }
@@ -100,7 +101,8 @@ private fun UiEffects(viewModel: SearchViewModel, uiState: MainUiState) {
 private fun TopSearchBar(actor: (SearchAction) -> Unit) {
     val keyword = remember { mutableStateOf(TextFieldValue()) }
     TopAppBar(
-        modifier = Modifier.padding(vertical = 4.dp), backgroundColor = MaterialTheme.colors.background
+        modifier = Modifier.padding(vertical = 4.dp),
+        backgroundColor = MaterialTheme.colors.background
     ) {
         SearchTextField(modifier = Modifier.fillMaxWidth(),
             value = keyword.value,
@@ -144,12 +146,15 @@ private fun MeaningsField(meanings: List<MeaningItem>) {
     meanings.forEach {
         Spacer(modifier = Modifier.height(12.dp))
         Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
-            Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)) {
                 PartOfSpeech(it.partOfSpeech.capitalize(LocaleList()))
                 it.definitions.forEachIndexed { index, definition ->
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${index + 1}. ${definition.text}", style = MaterialTheme.typography.body2
+                        text = "${index + 1}. ${definition.text}",
+                        style = MaterialTheme.typography.body2
                     )
                     DefinitionItem(definition)
                 }
@@ -161,7 +166,8 @@ private fun MeaningsField(meanings: List<MeaningItem>) {
 @Composable
 private fun DefinitionItem(definition: DefinitionItem) {
     definition.example.takeIf { it.isNotBlank() }?.let {
-        Text(text = "i.e. $it",
+        Text(
+            text = "i.e. $it",
             style = MaterialTheme.typography.body2,
             fontStyle = FontStyle.Italic
         )

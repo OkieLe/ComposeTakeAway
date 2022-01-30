@@ -32,7 +32,7 @@ fun rememberMainUiState(
     coroutineScope: CoroutineScope = rememberCoroutineScope()
 ) =
     remember(scaffoldState, navController, resources, coroutineScope) {
-        MainUiState(scaffoldState, navController,  resources, coroutineScope)
+        MainUiState(scaffoldState, navController, resources, coroutineScope)
     }
 
 @Stable

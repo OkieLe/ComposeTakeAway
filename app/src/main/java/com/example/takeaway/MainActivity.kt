@@ -19,14 +19,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.takeaway.about.AboutScreen
 import com.example.takeaway.design.theme.TakeAwaySampleTheme
-import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.model.MainUiState
 import com.example.takeaway.model.Screen
 import com.example.takeaway.model.rememberMainUiState
+import com.example.takeaway.search.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
