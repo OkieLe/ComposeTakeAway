@@ -47,6 +47,7 @@ fun <T> DataResult<T>.onError(block: (ErrorType, String?) -> Unit): DataResult<T
     return this
 }
 
+@Suppress("TooGenericExceptionCaught")
 inline fun <T> wrapDataResult(dataFetcher: () -> T): DataResult<T> {
     return try {
         Success(dataFetcher.invoke())

@@ -1,0 +1,24 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    toolVersion = "1.19.0"
+    source = files("src/main/java")
+    config = files("$rootDir/detekt/config.yml")
+    buildUponDefaultConfig = true
+    basePath = projectDir
+}
+
+tasks.named("detekt").configure {
+    exclude(".*/resources/.*,.*/build/.*")
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+        txt.required.set(false)
+        sarif.required.set(false)
+    }
+}
+
+dependencies {
+    // additional formatting rules from ktlint
+    // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+}
