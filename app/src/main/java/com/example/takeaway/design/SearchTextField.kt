@@ -14,14 +14,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.takeaway.R
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchTextField(
     value: TextFieldValue,
@@ -31,6 +37,10 @@ fun SearchTextField(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
+    val submitSearch = {
+        focusManager.clearFocus()
+        onSearchSubmit(value.text)
+    }
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -56,11 +66,15 @@ fun SearchTextField(
         placeholder = { Text(text = hint) },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = {
-            focusManager.clearFocus()
-            onSearchSubmit(value.text)
+            submitSearch()
         }),
         maxLines = 1,
         singleLine = true,
-        modifier = modifier,
+        modifier = modifier.onKeyEvent { event ->
+            if (event.key == Key.Enter && event.type == KeyEventType.KeyUp) {
+                submitSearch()
+            }
+            true
+        }
     )
 }

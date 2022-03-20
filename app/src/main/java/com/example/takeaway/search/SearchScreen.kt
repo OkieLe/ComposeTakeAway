@@ -1,6 +1,5 @@
 package com.example.takeaway.search
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -20,7 +19,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -111,9 +109,11 @@ private fun TopSearchBar(actor: (SearchAction) -> Unit) {
     val keyword = remember { mutableStateOf(TextFieldValue()) }
     TopAppBar(
         modifier = Modifier.padding(vertical = 4.dp),
-        backgroundColor = MaterialTheme.colors.background
+        backgroundColor = MaterialTheme.colors.background,
+        elevation = 0.dp
     ) {
-        SearchTextField(modifier = Modifier.fillMaxWidth(),
+        SearchTextField(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 1.dp).fillMaxWidth(),
             value = keyword.value,
             hint = stringResource(id = R.string.search_box_hint),
             onValueChange = { keyword.value = it },
