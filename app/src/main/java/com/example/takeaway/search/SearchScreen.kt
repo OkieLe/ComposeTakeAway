@@ -1,22 +1,26 @@
 package com.example.takeaway.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
@@ -45,6 +50,10 @@ import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
 import com.example.takeaway.search.model.SearchStatus
 import com.example.takeaway.search.model.WordItem
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -119,12 +128,22 @@ private fun LoadingIndicator() {
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun WordInfoList(wordItems: List<WordItem>) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(wordItems) { wordItem ->
-            WordInfoItem(wordItem)
-        }
+private fun ColumnScope.WordInfoList(wordItems: List<WordItem>) {
+    val pagerState = rememberPagerState()
+    if (wordItems.size > 1) {
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(8.dp),
+            activeColor = MaterialTheme.colors.primary,
+            indicatorWidth = 6.dp
+        )
+    }
+    HorizontalPager(count = wordItems.size, state = pagerState) { page ->
+        WordInfoItem(wordItems[page])
     }
 }
 
@@ -132,12 +151,32 @@ private fun WordInfoList(wordItems: List<WordItem>) {
 private fun WordInfoItem(wordInfo: WordItem) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 8.dp)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        WordText(wordInfo.text)
-        PhoneticField(wordInfo.phonetics)
+        BasicFields(wordInfo)
         MeaningsField(wordInfo.meanings)
+    }
+}
+
+@Composable
+private fun BasicFields(wordInfo: WordItem) {
+    Card(
+        modifier = Modifier.padding(horizontal = 4.dp),
+        backgroundColor = MaterialTheme.colors.primary,
+        elevation = 8.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            WordText(modifier = Modifier.align(Alignment.Bottom), wordInfo.text)
+            wordInfo.phonetics.forEach {
+                PhoneticText(modifier = Modifier.align(Alignment.Bottom), phonetic = it)
+            }
+        }
     }
 }
 
@@ -169,6 +208,7 @@ private fun DefinitionItem(definition: DefinitionItem) {
         Text(
             text = "i.e. $it",
             style = MaterialTheme.typography.body2,
+            color = Color.Gray,
             fontStyle = FontStyle.Italic
         )
     }
@@ -186,9 +226,11 @@ private fun SynonymsOrAntonyms(label: String, words: String) {
     Text(
         text = label,
         style = MaterialTheme.typography.caption,
+        color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.6f),
         fontStyle = FontStyle.Italic
     )
-    Text(text = words, style = MaterialTheme.typography.caption)
+    Text(text = words, style = MaterialTheme.typography.caption,
+        color = Color.Black.copy(alpha = 0.75f))
 }
 
 @Composable
@@ -196,31 +238,25 @@ private fun PartOfSpeech(partOfSpeech: String) {
     Text(
         text = partOfSpeech,
         style = MaterialTheme.typography.body2,
+        color = MaterialTheme.colors.secondaryVariant,
         fontStyle = FontStyle.Italic
     )
 }
 
 @Composable
-private fun PhoneticField(phonetics: List<PhoneticItem>) {
-    phonetics.forEach {
-        PhoneticText(phonetic = it)
-    }
-}
-
-@Composable
-private fun PhoneticText(phonetic: PhoneticItem) {
+private fun PhoneticText(modifier: Modifier, phonetic: PhoneticItem) {
     Text(
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(all = 4.dp),
         text = phonetic.text,
         style = MaterialTheme.typography.body1
     )
 }
 
 @Composable
-private fun WordText(word: String) {
+private fun WordText(modifier: Modifier, word: String) {
     Text(
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(horizontal = 8.dp),
         text = word,
-        style = MaterialTheme.typography.h6
+        style = MaterialTheme.typography.h4
     )
 }

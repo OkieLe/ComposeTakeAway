@@ -43,7 +43,7 @@ class SearchStateMapperTest {
             ))
         ),
         phonetics = listOf(
-            PhoneticItem(text = "\\həˈləʊ\\", audio = "")
+            PhoneticItem(text = "həˈləʊ", audio = "")
         )
     )
 

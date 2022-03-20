@@ -35,7 +35,7 @@ class SearchStateMapper @Inject constructor() {
     private fun toPhoneticItem(phonetic: Phonetic): PhoneticItem {
         return PhoneticItem(
             audio = phonetic.audio.orEmpty(),
-            text = "\\${phonetic.text}\\"
+            text = phonetic.text.orEmpty()
         )
     }
 
