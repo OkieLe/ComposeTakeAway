@@ -1,6 +1,9 @@
 package com.example.takeaway.data.di
 
-import com.example.takeaway.data.remote.RemoteDictionaryDataSource
+import com.example.takeaway.data.local.LocalWordsDataSource
+import com.example.takeaway.data.local.WordsDatabase
+import com.example.takeaway.data.local.mapper.WordInfoMapper
+import com.example.takeaway.data.remote.RemoteWordsDataSource
 import com.example.takeaway.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,7 +36,13 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideRemoteDictionaryDataSource(retrofit: Retrofit): RemoteDictionaryDataSource {
-        return retrofit.create(RemoteDictionaryDataSource::class.java)
+    fun provideRemoteWordsDataSource(retrofit: Retrofit): RemoteWordsDataSource {
+        return retrofit.create(RemoteWordsDataSource::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalWordsDataSource(gson: Gson, wordsDatabase: WordsDatabase): LocalWordsDataSource {
+        return LocalWordsDataSource(WordInfoMapper(gson), wordsDatabase.wordDao())
     }
 }

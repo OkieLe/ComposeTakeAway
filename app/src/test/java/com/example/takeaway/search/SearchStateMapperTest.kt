@@ -4,6 +4,7 @@ import com.example.takeaway.data.model.Definition
 import com.example.takeaway.data.model.Meaning
 import com.example.takeaway.data.model.Phonetic
 import com.example.takeaway.data.model.WordInfo
+import com.example.takeaway.search.mapper.SearchStateMapper
 import com.example.takeaway.search.model.DefinitionItem
 import com.example.takeaway.search.model.MeaningItem
 import com.example.takeaway.search.model.PhoneticItem

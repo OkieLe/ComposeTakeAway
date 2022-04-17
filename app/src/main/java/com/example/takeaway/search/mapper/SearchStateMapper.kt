@@ -1,4 +1,4 @@
-package com.example.takeaway.search
+package com.example.takeaway.search.mapper
 
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.LocaleList

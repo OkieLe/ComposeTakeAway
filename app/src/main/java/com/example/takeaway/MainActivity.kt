@@ -23,6 +23,7 @@ import com.example.takeaway.model.MainUiState
 import com.example.takeaway.model.Screen
 import com.example.takeaway.model.rememberMainUiState
 import com.example.takeaway.search.SearchScreen
+import com.example.takeaway.starred.StarredScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Search.route) { SearchScreen(uiState) }
+                        composable(Screen.Starred.route) { StarredScreen(uiState) }
                         composable(Screen.About.route) { AboutScreen() }
                     }
                 }
@@ -62,7 +64,7 @@ class MainActivity : ComponentActivity() {
                         label = { Text(stringResource(screen.resourceId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
-                            uiState.navigateToTab(screen.route)
+                            uiState.openTab(screen.route)
                         }
                     )
                 }

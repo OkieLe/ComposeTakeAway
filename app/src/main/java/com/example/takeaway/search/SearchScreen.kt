@@ -19,6 +19,10 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,8 +42,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.takeaway.R
+import com.example.takeaway.design.IconMenu
 import com.example.takeaway.design.SearchTextField
 import com.example.takeaway.model.MainUiState
+import com.example.takeaway.model.Screen
+import com.example.takeaway.model.rememberMainUiState
 import com.example.takeaway.search.model.DefinitionItem
 import com.example.takeaway.search.model.MeaningItem
 import com.example.takeaway.search.model.PhoneticItem
@@ -47,6 +54,7 @@ import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
 import com.example.takeaway.search.model.SearchStatus
+import com.example.takeaway.search.model.StarState
 import com.example.takeaway.search.model.WordItem
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -60,7 +68,7 @@ fun SearchScreen(uiState: MainUiState) {
     val actor = viewModel::submit
     val state by viewModel.state.collectAsState()
     UiEffects(viewModel, uiState)
-    SearchScreenContent(state, actor)
+    SearchScreenContent(state, actor, uiState)
 }
 
 @Preview(showBackground = true)
@@ -68,14 +76,16 @@ fun SearchScreen(uiState: MainUiState) {
 fun SearchScreenPreview() {
     SearchScreenContent(
         state = SearchState(status = SearchStatus.Loading),
-        actor = {}
+        actor = {},
+        uiState = rememberMainUiState()
     )
 }
 
 @Composable
 private fun SearchScreenContent(
     state: SearchState,
-    actor: (action: SearchAction) -> Unit
+    actor: (action: SearchAction) -> Unit,
+    uiState: MainUiState
 ) {
     val focusManager = LocalFocusManager.current
     Column(
@@ -85,7 +95,7 @@ private fun SearchScreenContent(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { focusManager.clearFocus() })
     ) {
-        TopSearchBar(actor)
+        TopBar(state.starState, actor, uiState)
         when (val status = state.status) {
             SearchStatus.Loading -> LoadingIndicator()
             is SearchStatus.Result -> WordInfoList(status.wordItems)
@@ -105,19 +115,35 @@ private fun UiEffects(viewModel: SearchViewModel, uiState: MainUiState) {
 }
 
 @Composable
-private fun TopSearchBar(actor: (SearchAction) -> Unit) {
+private fun TopBar(starState: StarState, actor: (SearchAction) -> Unit, uiState: MainUiState) {
     val keyword = remember { mutableStateOf(TextFieldValue()) }
+    val starClicker = { actor(SearchAction.Star) }
+    val unStarClicker = { actor(SearchAction.UnStar) }
     TopAppBar(
         modifier = Modifier.padding(vertical = 4.dp),
         backgroundColor = MaterialTheme.colors.background,
         elevation = 0.dp
     ) {
         SearchTextField(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 1.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(vertical = 1.dp)
+                .padding(start = 8.dp)
+                .weight(1f),
             value = keyword.value,
             hint = stringResource(id = R.string.search_box_hint),
             onValueChange = { keyword.value = it },
             onSearchSubmit = { actor(SearchAction.Search(keyword.value.text)) })
+        IconMenu(
+            imageVector = if (starState.enabled && starState.starred) {
+                Icons.Outlined.Favorite
+            } else Icons.Outlined.FavoriteBorder,
+            description = stringResource(id = R.string.star_label),
+            enabled = starState.enabled,
+            onClick = if (starState.starred) unStarClicker else starClicker
+        )
+        IconMenu(imageVector = Icons.Outlined.List, description = "") {
+            uiState.openScreen(Screen.Starred.route)
+        }
     }
 }
 
@@ -185,9 +211,11 @@ private fun MeaningsField(meanings: List<MeaningItem>) {
     meanings.forEach {
         Spacer(modifier = Modifier.height(12.dp))
         Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
                 PartOfSpeech(it.partOfSpeech.capitalize(LocaleList()))
                 it.definitions.forEachIndexed { index, definition ->
                     Spacer(modifier = Modifier.height(6.dp))
@@ -229,8 +257,10 @@ private fun SynonymsOrAntonyms(label: String, words: String) {
         color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.6f),
         fontStyle = FontStyle.Italic
     )
-    Text(text = words, style = MaterialTheme.typography.caption,
-        color = Color.Black.copy(alpha = 0.75f))
+    Text(
+        text = words, style = MaterialTheme.typography.caption,
+        color = Color.Black.copy(alpha = 0.75f)
+    )
 }
 
 @Composable

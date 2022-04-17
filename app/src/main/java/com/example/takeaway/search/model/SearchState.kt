@@ -1,13 +1,19 @@
 package com.example.takeaway.search.model
 
 data class SearchState(
-    val status: SearchStatus = SearchStatus.Result()
+    val status: SearchStatus = SearchStatus.Result(),
+    val starState: StarState = StarState()
 )
 
 sealed interface SearchStatus {
     object Loading: SearchStatus
     data class Result(val wordItems: List<WordItem> = emptyList()): SearchStatus
 }
+
+data class StarState(
+    val enabled: Boolean = false,
+    val starred: Boolean = false
+)
 
 data class WordItem(
     val text: String,

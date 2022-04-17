@@ -6,6 +6,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -56,7 +57,7 @@ class MainUiState(
         navController.navigateUp()
     }
 
-    fun navigateToTab(route: String) {
+    fun openTab(route: String) {
         if (route != currentRoute) {
             navController.navigate(route) {
                 popUpTo(findStartDestination(navController.graph).id) {
@@ -64,6 +65,14 @@ class MainUiState(
                 }
                 launchSingleTop = true
                 restoreState = true
+            }
+        }
+    }
+
+    fun openScreen(route: String) {
+        if (route != currentRoute) {
+            navController.navigate(route) {
+                launchSingleTop = true
             }
         }
     }
@@ -91,6 +100,7 @@ private fun resources(): Resources {
 
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
     object Search : Screen("Search", Icons.Filled.Search, R.string.search_label)
+    object Starred: Screen("Starred", Icons.Filled.Star, R.string.star_label)
     object About : Screen("About", Icons.Filled.Info, R.string.about_label)
 
     companion object {
