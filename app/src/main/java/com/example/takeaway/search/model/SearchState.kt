@@ -1,9 +1,11 @@
 package com.example.takeaway.search.model
 
+import com.example.takeaway.common.UiState
+
 data class SearchState(
     val status: SearchStatus = SearchStatus.Result(),
     val starState: StarState = StarState()
-)
+): UiState
 
 sealed interface SearchStatus {
     object Loading: SearchStatus

@@ -28,4 +28,6 @@ class WordsRepository @Inject constructor(
     suspend fun unStarWord(word: String) {
         localWordsDataSource.unStarWord(word)
     }
+
+    fun getStarredWords() = localWordsDataSource.starredWords
 }

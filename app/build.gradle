@@ -78,6 +78,7 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
