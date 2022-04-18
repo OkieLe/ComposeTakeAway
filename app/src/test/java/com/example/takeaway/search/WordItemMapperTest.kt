@@ -4,15 +4,15 @@ import com.example.takeaway.data.model.Definition
 import com.example.takeaway.data.model.Meaning
 import com.example.takeaway.data.model.Phonetic
 import com.example.takeaway.data.model.WordInfo
-import com.example.takeaway.search.mapper.SearchStateMapper
-import com.example.takeaway.search.model.DefinitionItem
-import com.example.takeaway.search.model.MeaningItem
-import com.example.takeaway.search.model.PhoneticItem
-import com.example.takeaway.search.model.WordItem
+import com.example.takeaway.common.mapper.WordItemMapper
+import com.example.takeaway.common.model.DefinitionItem
+import com.example.takeaway.common.model.MeaningItem
+import com.example.takeaway.common.model.PhoneticItem
+import com.example.takeaway.common.model.WordItem
 import io.kotest.assertions.eq.eq
 import org.junit.Test
 
-class SearchStateMapperTest {
+class WordItemMapperTest {
 
     private val helloInfo = WordInfo(
         word = "hello",
@@ -48,13 +48,13 @@ class SearchStateMapperTest {
         )
     )
 
-    private val searchStateMapper = SearchStateMapper()
+    private val searchStateMapper = WordItemMapper()
 
     @Test
     fun `given a 'WordInfo' when 'toWordItem' then return 'WordItem'`() {
         val wordInfo = helloInfo
 
-        val wordItem = searchStateMapper.toWordItem(wordInfo)
+        val wordItem = searchStateMapper.fromInfo(wordInfo)
 
         eq(wordItem, helloItem)
     }

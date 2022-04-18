@@ -6,7 +6,7 @@ import com.example.takeaway.data.WordsRepository
 import com.example.takeaway.data.model.WordInfo
 import com.example.takeaway.data.model.onError
 import com.example.takeaway.data.model.onSuccess
-import com.example.takeaway.search.mapper.SearchStateMapper
+import com.example.takeaway.common.mapper.WordItemMapper
 import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchStateMapper: SearchStateMapper,
+    private val wordItemMapper: WordItemMapper,
     private val wordsRepository: WordsRepository
 ): BaseViewModel<SearchAction, SearchState, SearchEvent>() {
 
@@ -48,7 +48,7 @@ class SearchViewModel @Inject constructor(
                 .onSuccess {
                     currentWordInfo.clear()
                     currentWordInfo.addAll(it)
-                    val wordItems = it.map(searchStateMapper::toWordItem)
+                    val wordItems = it.map(wordItemMapper::fromInfo)
                     updateState(SearchState(status = SearchStatus.Result(wordItems)))
                     viewModelScope.launch {
                         updateState(

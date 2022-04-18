@@ -19,9 +19,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.takeaway.about.AboutScreen
 import com.example.takeaway.design.theme.TakeAwaySampleTheme
-import com.example.takeaway.model.MainUiState
-import com.example.takeaway.model.Screen
-import com.example.takeaway.model.rememberMainUiState
+import com.example.takeaway.common.ui.MainUiState
+import com.example.takeaway.common.ui.Screen
+import com.example.takeaway.common.ui.rememberMainUiState
 import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.starred.StarredScreen
 import dagger.hilt.android.AndroidEntryPoint

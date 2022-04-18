@@ -21,7 +21,7 @@ import com.example.takeaway.R
 import com.example.takeaway.design.FlexTextRow
 import com.example.takeaway.design.IconMenu
 import com.example.takeaway.design.LoadingIndicator
-import com.example.takeaway.model.MainUiState
+import com.example.takeaway.common.ui.MainUiState
 import com.example.takeaway.starred.model.StarredAction
 import com.example.takeaway.starred.model.StarredState
 import com.example.takeaway.starred.model.StarredStatus

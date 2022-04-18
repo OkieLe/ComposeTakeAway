@@ -1,4 +1,4 @@
-package com.example.takeaway.model
+package com.example.takeaway.common.ui
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
