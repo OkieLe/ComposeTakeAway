@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.takeaway"
-        minSdk 21
+        minSdk 27
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -24,12 +24,28 @@ android {
         }
     }
 
+    signingConfigs {
+        def keystoreProperties = new Properties()
+        def keystorePropertiesFile = rootProject.file('keystore/key.properties')
+        if (keystorePropertiesFile.exists()) {
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        }
+        config {
+            storeFile rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePass']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPass']
+        }
+    }
+
     buildTypes {
-        debug{
+        debug {
+            signingConfig signingConfigs.config
             testCoverageEnabled true
         }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
