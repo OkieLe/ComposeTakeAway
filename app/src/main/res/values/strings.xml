@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dictionary Sample</string>
+    <string name="app_name">Dictionary</string>
     <string name="search_label">Search</string>
     <string name="star_label">Starred</string>
     <string name="word_label">Word</string>

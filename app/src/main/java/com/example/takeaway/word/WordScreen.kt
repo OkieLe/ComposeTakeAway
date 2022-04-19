@@ -80,7 +80,7 @@ private fun TopBar(
     TopAppBar(
         modifier = Modifier.padding(vertical = 4.dp),
         backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp
+        elevation = 2.dp
     ) {
         IconMenu(
             imageVector = Icons.Filled.ArrowBack,
