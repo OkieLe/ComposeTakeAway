@@ -2,10 +2,13 @@
     <string name="app_name">Dictionary Sample</string>
     <string name="search_label">Search</string>
     <string name="star_label">Starred</string>
+    <string name="word_label">Word</string>
     <string name="about_label">About</string>
     <string name="clear_label">Clear</string>
     <string name="search_box_hint">hello</string>
     <string name="label_synonyms">Synonyms</string>
     <string name="label_antonyms">Antonyms</string>
+    <string name="error_message_blank_word">Blank word.</string>
+    <string name="error_message_no_info_found">Word info not found.</string>
     <string name="error_message_unknown_error">Something went wrong! Try again later.</string>
 </resources>

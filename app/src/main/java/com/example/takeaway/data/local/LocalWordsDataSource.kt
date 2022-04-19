@@ -25,4 +25,10 @@ class LocalWordsDataSource(
     suspend fun isWordStarred(word: String): Boolean {
         return wordDao.findWord(word).isNotEmpty()
     }
+
+    suspend fun getWord(word: String): List<WordInfo> {
+        return wordDao.findWord(word = word).map {
+            wordInfoMapper.toWordInfo(it)
+        }
+    }
 }

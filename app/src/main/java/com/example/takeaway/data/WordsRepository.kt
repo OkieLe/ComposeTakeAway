@@ -21,6 +21,10 @@ class WordsRepository @Inject constructor(
         return localWordsDataSource.isWordStarred(word)
     }
 
+    suspend fun getWord(word: String): List<WordInfo> {
+        return localWordsDataSource.getWord(word)
+    }
+
     suspend fun starWord(wordInfos: List<WordInfo>) {
         localWordsDataSource.starWord(wordInfos)
     }

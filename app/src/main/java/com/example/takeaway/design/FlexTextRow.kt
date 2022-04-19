@@ -1,11 +1,13 @@
 package com.example.takeaway.design
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -22,24 +24,32 @@ private val colorList = listOf(
 )
 
 @Composable
-fun FlexTextRow(modifier: Modifier, textList: List<String>, style: TextStyle) {
+fun FlexTextRow(
+    modifier: Modifier,
+    textList: List<String>,
+    style: TextStyle,
+    itemClickListener: (String) -> Unit
+) {
     FlowRow(modifier = modifier) {
         textList.forEach {
             ColorfulText(
                 text = it,
-                textStyle = style
+                textStyle = style,
+                itemClickListener
             )
         }
     }
 }
 
 @Composable
-private fun ColorfulText(text: String, textStyle: TextStyle) {
+private fun ColorfulText(text: String, textStyle: TextStyle, itemClickListener: (String) -> Unit) {
     val color = colorList.random()
     Text(
         modifier = Modifier
             .padding(vertical = 2.dp, horizontal = 3.dp)
-            .background(shape = RoundedCornerShape(16.dp), color = Color.Black.copy(alpha = 0.2f))
+            .clip(shape = RoundedCornerShape(16.dp))
+            .background(color = Color.Black.copy(alpha = 0.2f))
+            .clickable { itemClickListener(text) }
             .padding(vertical = 6.dp, horizontal = 10.dp),
         text = text,
         style = textStyle.copy(color = color)

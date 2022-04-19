@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
@@ -101,6 +102,7 @@ private fun resources(): Resources {
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
     object Search : Screen("Search", Icons.Filled.Search, R.string.search_label)
     object Starred: Screen("Starred", Icons.Filled.Star, R.string.star_label)
+    object Word: Screen("Word", Icons.Filled.PlayArrow, R.string.word_label)
     object About : Screen("About", Icons.Filled.Info, R.string.about_label)
 
     companion object {

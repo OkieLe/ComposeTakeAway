@@ -14,9 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import com.example.takeaway.about.AboutScreen
 import com.example.takeaway.design.theme.TakeAwaySampleTheme
 import com.example.takeaway.common.ui.MainUiState
@@ -24,6 +26,7 @@ import com.example.takeaway.common.ui.Screen
 import com.example.takeaway.common.ui.rememberMainUiState
 import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.starred.StarredScreen
+import com.example.takeaway.word.WordScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,6 +48,15 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Screen.Search.route) { SearchScreen(uiState) }
                         composable(Screen.Starred.route) { StarredScreen(uiState) }
+                        composable(
+                            Screen.Word.route + "/{word}",
+                            arguments = listOf(
+                                navArgument("word") { type = NavType.StringType }
+                            )
+                        ) { backStackEntry ->
+                            WordScreen(uiState,
+                                backStackEntry.arguments?.getString("word").orEmpty())
+                        }
                         composable(Screen.About.route) { AboutScreen() }
                     }
                 }

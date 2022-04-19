@@ -18,21 +18,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.takeaway.R
+import com.example.takeaway.common.ui.MainUiState
+import com.example.takeaway.common.ui.Screen
 import com.example.takeaway.design.FlexTextRow
 import com.example.takeaway.design.IconMenu
 import com.example.takeaway.design.LoadingIndicator
-import com.example.takeaway.common.ui.MainUiState
 import com.example.takeaway.starred.model.StarredAction
 import com.example.takeaway.starred.model.StarredState
 import com.example.takeaway.starred.model.StarredStatus
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun StarredScreen(uiState: MainUiState) {
     val viewModel: StarredViewModel = hiltViewModel()
     val actor = viewModel::submit
     val state by viewModel.state.collectAsState()
-    UiEffects(viewModel, uiState)
     StarredScreenContent(state, actor, uiState)
 }
 
@@ -53,7 +52,9 @@ private fun StarredScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 textList = state.status.wordItems.map { it.text },
                 style = MaterialTheme.typography.body1
-            )
+            ) {
+                uiState.openScreen(Screen.Word.route + "/$it")
+            }
         }
     }
     LaunchedEffect(Unit) {
@@ -78,14 +79,5 @@ private fun TopBar(uiState: MainUiState) {
                 color = MaterialTheme.colors.primary
             )
         )
-    }
-}
-@Composable
-private fun UiEffects(viewModel: StarredViewModel, uiState: MainUiState) {
-    LaunchedEffect(Unit) {
-        viewModel.events.collectLatest { event ->
-            when (event) {
-            }
-        }
     }
 }
