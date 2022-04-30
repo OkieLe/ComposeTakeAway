@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class DatabaseModule {
+class LocalModule {
+
     @Singleton
     @Provides
     fun provideStarredDatabase(@ApplicationContext context: Context): WordsDatabase {

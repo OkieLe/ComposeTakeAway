@@ -2,7 +2,6 @@ package com.example.takeaway.starred
 
 import androidx.lifecycle.viewModelScope
 import com.example.takeaway.common.BaseViewModel
-import com.example.takeaway.data.WordsRepository
 import com.example.takeaway.starred.model.StarredAction
 import com.example.takeaway.starred.model.StarredEvent
 import com.example.takeaway.starred.model.StarredState
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StarredViewModel @Inject constructor(
-    private val wordsRepository: WordsRepository
+    private val wordsRepository: com.example.takeaway.data.WordsRepository
 ): BaseViewModel<StarredAction, StarredState, StarredEvent>() {
 
     override val initialState: StarredState

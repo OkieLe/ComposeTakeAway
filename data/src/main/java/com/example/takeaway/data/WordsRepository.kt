@@ -5,14 +5,12 @@ import com.example.takeaway.data.model.DataResult
 import com.example.takeaway.data.model.WordInfo
 import com.example.takeaway.data.model.wrapDataResult
 import com.example.takeaway.data.remote.RemoteWordsDataSource
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class WordsRepository @Inject constructor(
+class WordsRepository(
     private val remoteWordsDataSource: RemoteWordsDataSource,
     private val localWordsDataSource: LocalWordsDataSource
 ) {
+
     suspend fun searchWord(word: String): DataResult<List<WordInfo>> = wrapDataResult {
         remoteWordsDataSource.searchWord(word = word)
     }

@@ -3,7 +3,6 @@ package com.example.takeaway.word.model
 import androidx.annotation.StringRes
 import com.example.takeaway.R
 import com.example.takeaway.common.UiEvent
-import com.example.takeaway.data.model.ErrorType
 
 sealed interface WordEvent: UiEvent {
     data class ShowError(val error: WordError): WordEvent

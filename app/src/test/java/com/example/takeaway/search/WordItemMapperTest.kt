@@ -1,14 +1,14 @@
 package com.example.takeaway.search
 
-import com.example.takeaway.data.model.Definition
-import com.example.takeaway.data.model.Meaning
-import com.example.takeaway.data.model.Phonetic
-import com.example.takeaway.data.model.WordInfo
 import com.example.takeaway.common.mapper.WordItemMapper
 import com.example.takeaway.common.model.DefinitionItem
 import com.example.takeaway.common.model.MeaningItem
 import com.example.takeaway.common.model.PhoneticItem
 import com.example.takeaway.common.model.WordItem
+import com.example.takeaway.data.model.Definition
+import com.example.takeaway.data.model.Meaning
+import com.example.takeaway.data.model.Phonetic
+import com.example.takeaway.data.model.WordInfo
 import io.kotest.assertions.eq.eq
 import org.junit.Test
 

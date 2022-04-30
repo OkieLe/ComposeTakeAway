@@ -3,8 +3,8 @@ package com.example.takeaway.data.di
 import com.example.takeaway.data.local.LocalWordsDataSource
 import com.example.takeaway.data.local.WordsDatabase
 import com.example.takeaway.data.local.mapper.WordInfoMapper
+import com.example.takeaway.data.remote.DICTIONARY_BASE_URL
 import com.example.takeaway.data.remote.RemoteWordsDataSource
-import com.example.takeaway.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DataModule {
+class RemoteModule {
 
     @Singleton
     @Provides
@@ -29,7 +29,7 @@ class DataModule {
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.DICTIONARY_BASE_URL)
+            .baseUrl(DICTIONARY_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
