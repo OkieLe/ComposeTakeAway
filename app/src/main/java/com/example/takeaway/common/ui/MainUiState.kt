@@ -1,20 +1,15 @@
 package com.example.takeaway.common.ui
 
 import android.content.res.Resources
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
@@ -98,14 +93,14 @@ private fun resources(): Resources {
     LocalConfiguration.current
     return LocalContext.current.resources
 }
-
-sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
-    object Search : Screen("Search", Icons.Filled.Search, R.string.search_label)
-    object Starred: Screen("Starred", Icons.Filled.Star, R.string.star_label)
-    object Word: Screen("Word", Icons.Filled.PlayArrow, R.string.word_label)
-    object About : Screen("About", Icons.Filled.Info, R.string.about_label)
-
+sealed class Screen(val route: String, @DrawableRes val icon: Int, @StringRes val resourceId: Int) {
+    object Search : Screen("Search", R.drawable.ic_letter_english, R.string.search_label)
+    object Chinese : Screen("Chinese", R.drawable.ic_letter_chinese, R.string.chinese_label)
+    object Starred : Screen("Starred", R.drawable.ic_star, R.string.star_label)
+    object Word : Screen("Word", R.drawable.ic_word_info, R.string.word_label)
+    object About : Screen("About", R.drawable.ic_about, R.string.about_label)
     companion object {
-        val items = listOf(Search, About)
+
+        val items = listOf(Search, Chinese, About)
     }
 }

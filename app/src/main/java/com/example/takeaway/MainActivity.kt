@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavType
@@ -20,10 +21,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.takeaway.about.AboutScreen
-import com.example.takeaway.design.theme.TakeAwaySampleTheme
+import com.example.takeaway.chinese.ChineseScreen
 import com.example.takeaway.common.ui.MainUiState
 import com.example.takeaway.common.ui.Screen
 import com.example.takeaway.common.ui.rememberMainUiState
+import com.example.takeaway.design.theme.TakeAwaySampleTheme
 import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.starred.StarredScreen
 import com.example.takeaway.word.WordScreen
@@ -47,6 +49,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Search.route) { SearchScreen(uiState) }
+                        composable(Screen.Chinese.route) { ChineseScreen(uiState) }
                         composable(Screen.Starred.route) { StarredScreen(uiState) }
                         composable(
                             Screen.Word.route + "/{word}",
@@ -72,7 +75,9 @@ class MainActivity : ComponentActivity() {
                 val currentDestination = navBackStackEntry?.destination
                 uiState.bottomBarTabs.forEach { screen ->
                     BottomNavigationItem(
-                        icon = { Icon(screen.icon, contentDescription = null) },
+                        icon = {
+                            Icon(painter = painterResource(screen.icon), contentDescription = null)
+                        },
                         label = { Text(stringResource(screen.resourceId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {

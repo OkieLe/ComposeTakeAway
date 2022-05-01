@@ -1,14 +1,28 @@
 <resources>
     <string name="app_name">Dictionary</string>
     <string name="search_label">Search</string>
+    <string name="chinese_label">Hanzi</string>
     <string name="star_label">Starred</string>
     <string name="word_label">Word</string>
     <string name="about_label">About</string>
+
     <string name="clear_label">Clear</string>
     <string name="search_box_hint">hello</string>
+
     <string name="label_synonyms">Synonyms</string>
     <string name="label_antonyms">Antonyms</string>
     <string name="error_message_blank_word">Blank word.</string>
     <string name="error_message_no_info_found">Word info not found.</string>
     <string name="error_message_unknown_error">Something went wrong! Try again later.</string>
+
+    <string name="search_hanzi_hint_zi">字</string>
+    <string name="search_hanzi_hint_ci">词</string>
+
+    <string name="label_zi_strokes">笔划数：</string>
+    <string name="label_zi_radicals">部首/偏旁：</string>
+    <string name="label_zi_old_word">古形：</string>
+    <string name="label_ci_derivation">词源</string>
+    <string name="label_hanzi_explanation">解释</string>
+    <string name="error_message_invalid_input">输入无效，只能输入拼音或汉字</string>
+    <string name="error_message_hanzi_not_found">没找到改字或词</string>
 </resources>
