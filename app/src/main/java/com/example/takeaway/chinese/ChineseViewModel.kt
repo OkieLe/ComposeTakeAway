@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.takeaway.chinese.model.ChineseAction
 import com.example.takeaway.chinese.model.ChineseEvent
 import com.example.takeaway.chinese.model.ChineseState
+import com.example.takeaway.chinese.model.MoreResultState
 import com.example.takeaway.chinese.model.SearchError
 import com.example.takeaway.chinese.model.SearchMode
 import com.example.takeaway.chinese.model.SearchStatus
@@ -14,6 +15,7 @@ import com.example.takeaway.data.HanziRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.min
 
 @HiltViewModel
 class ChineseViewModel @Inject constructor(
@@ -24,6 +26,7 @@ class ChineseViewModel @Inject constructor(
     companion object {
         private val validKeywordRegex = "^[a-zA-Z]+\$|^[\\u4e00-\\u9fa5]+\$".toRegex()
         private val spaceRegex = "\\s".toRegex()
+        private const val MAX_DISPLAY_COUNT = 12
     }
 
     override val initialState: ChineseState
@@ -50,7 +53,7 @@ class ChineseViewModel @Inject constructor(
 
     private fun searchZi(word: String) {
         viewModelScope.launch {
-            updateState(state.value.copy(status = SearchStatus.Loading))
+            updateState(state.value.copy(searchStatus = SearchStatus.Loading, moreResultState = MoreResultState()))
             hanziRepository.searchZi(word).let {
                 when {
                     it.isNotEmpty() -> updateSearchResult(it.map(hanziItemMapper::fromZiInfo))
@@ -65,7 +68,7 @@ class ChineseViewModel @Inject constructor(
 
     private fun searchCi(word: String) {
         viewModelScope.launch {
-            updateState(state.value.copy(status = SearchStatus.Loading))
+            updateState(state.value.copy(searchStatus = SearchStatus.Loading, moreResultState = MoreResultState()))
             hanziRepository.searchCi(word).let {
                 when {
                     it.isNotEmpty() -> updateSearchResult(it.map(hanziItemMapper::fromCiInfo))
@@ -79,18 +82,32 @@ class ChineseViewModel @Inject constructor(
     }
 
     private fun updateSearchResult(hanziItems: List<HanziItem>) {
-        updateState(state.value.copy(status = SearchStatus.Result(hanziItems)))
+        val showPartial = MAX_DISPLAY_COUNT < hanziItems.size
+        updateState(
+            state.value.copy(
+                searchStatus = SearchStatus.Result(
+                    hanziItems.subList(0, min(MAX_DISPLAY_COUNT, hanziItems.size))
+                ),
+                moreResultState = MoreResultState(
+                    showPartial = showPartial,
+                    allItems = hanziItems.map(hanziItemMapper::toHanziBrief)
+                )
+            )
+        )
+        if (showPartial) sendEvent(ChineseEvent.ShowPartial(hanziItems.size))
     }
 
     private fun changeMode() {
         when (state.value.searchMode) {
             SearchMode.CiMode -> updateState(state.value.copy(
                 searchMode = SearchMode.ZiMode,
-                status = SearchStatus.Result(emptyList())
+                moreResultState = MoreResultState(),
+                searchStatus = SearchStatus.Result(emptyList())
             ))
             SearchMode.ZiMode -> updateState(state.value.copy(
                 searchMode = SearchMode.CiMode,
-                status = SearchStatus.Result(emptyList())
+                moreResultState = MoreResultState(),
+                searchStatus = SearchStatus.Result(emptyList())
             ))
         }
     }

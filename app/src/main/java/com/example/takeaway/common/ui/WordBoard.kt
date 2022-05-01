@@ -141,7 +141,7 @@ private fun SynonymsOrAntonyms(label: String, words: String) {
     Text(
         text = label,
         style = MaterialTheme.typography.caption,
-        color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.6f),
+        color = MaterialTheme.colors.primary.copy(alpha = 0.6f),
         fontStyle = FontStyle.Italic
     )
     Text(
@@ -155,7 +155,7 @@ private fun PartOfSpeech(partOfSpeech: String) {
     Text(
         text = partOfSpeech,
         style = MaterialTheme.typography.body2,
-        color = MaterialTheme.colors.secondaryVariant,
+        color = MaterialTheme.colors.primary,
         fontStyle = FontStyle.Italic
     )
 }

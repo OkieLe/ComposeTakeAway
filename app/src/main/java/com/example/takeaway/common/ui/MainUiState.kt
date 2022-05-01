@@ -78,6 +78,12 @@ class MainUiState(
             scaffoldState.snackbarHostState.showSnackbar(resources.getString(messageId))
         }
     }
+
+    fun showSnackbar(message: String) {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(message)
+        }
+    }
 }
 
 private val NavGraph.startDestination: NavDestination?

@@ -5,7 +5,8 @@ import com.example.takeaway.R
 import com.example.takeaway.common.UiEvent
 
 sealed interface ChineseEvent: UiEvent {
-    data class ShowError(val error: SearchError): ChineseEvent
+    data class ShowError(val error: SearchError) : ChineseEvent
+    data class ShowPartial(val total: Int) : ChineseEvent
 }
 
 enum class SearchError(@StringRes val message: Int) {
