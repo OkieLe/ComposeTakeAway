@@ -1,6 +1,8 @@
 package com.example.takeaway.data.di
 
+import com.example.takeaway.data.HanziRepository
 import com.example.takeaway.data.WordsRepository
+import com.example.takeaway.data.local.HanziDataSource
 import com.example.takeaway.data.local.LocalWordsDataSource
 import com.example.takeaway.data.remote.RemoteWordsDataSource
 import dagger.Module
@@ -12,6 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class DataModule {
+
     @Singleton
     @Provides
     fun provideWordsRepository(
@@ -19,5 +22,11 @@ class DataModule {
         localWordsDataSource: LocalWordsDataSource
     ): WordsRepository {
         return WordsRepository(remoteWordsDataSource, localWordsDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHanziRepository(hanziDataSource: HanziDataSource): HanziRepository {
+        return HanziRepository(hanziDataSource)
     }
 }

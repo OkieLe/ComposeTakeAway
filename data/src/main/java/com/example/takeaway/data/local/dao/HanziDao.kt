@@ -6,6 +6,10 @@ import com.example.takeaway.data.local.entity.Hanzi
 
 @Dao
 interface HanziDao {
+
+    @Query("SELECT * FROM Hanzi WHERE character = :name")
+    suspend fun findByName(name: String): List<Hanzi>
+
     @Query("SELECT * FROM Hanzi WHERE abbrev = :pinyin")
     suspend fun findByPinyin(pinyin: String): List<Hanzi>
 

@@ -2,10 +2,14 @@ package com.example.takeaway.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "Hanzi"
+    tableName = "Hanzi",
+    indices = [
+        Index(name = "ind_full_pinyin", value = ["abbrev"])
+    ]
 )
 data class Hanzi(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,

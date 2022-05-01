@@ -6,6 +6,10 @@ import com.example.takeaway.data.local.entity.Chengyu
 
 @Dao
 interface ChengyuDao {
+
+    @Query("SELECT * FROM Chengyu WHERE word = :word")
+    suspend fun findByWord(word: String): List<Chengyu>
+
     @Query("SELECT * FROM Chengyu WHERE ascii_pinyin LIKE :pinyin || '%' OR abbrev = :pinyin")
     suspend fun findByPinyin(pinyin: String): List<Chengyu>
 
