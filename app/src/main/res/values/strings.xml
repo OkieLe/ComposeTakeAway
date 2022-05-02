@@ -27,6 +27,6 @@
     <string name="label_ci_derivation">词源</string>
     <string name="label_hanzi_explanation">解释</string>
     <string name="error_message_invalid_input">输入无效，只能输入拼音或汉字</string>
-    <string name="error_message_hanzi_not_found">没找到改字或词</string>
+    <string name="error_message_hanzi_not_found">没找到该字或词</string>
     <string name="message_hanzi_shown_partially">找到%d个结果，点击"翻页"查看更多结果</string>
 </resources>

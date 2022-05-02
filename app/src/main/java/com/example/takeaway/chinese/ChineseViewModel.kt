@@ -97,10 +97,10 @@ class ChineseViewModel @Inject constructor(
 
     private fun showPage(page: Int) {
         val hanziItems = state.value.allItems
-        val pageStart = max((page - 1) * PAGE_SIZE, 0)
+        val pageStart = max(page * PAGE_SIZE, 0)
         val pageCount = min(PAGE_SIZE, hanziItems.size - pageStart)
         val hasPrevious = pageStart > 0
-        val hasNext = page * PAGE_SIZE < hanziItems.size
+        val hasNext = (page + 1) * PAGE_SIZE < hanziItems.size
         updateState(
             state.value.copy(
                 searchState = SearchState.Result(
