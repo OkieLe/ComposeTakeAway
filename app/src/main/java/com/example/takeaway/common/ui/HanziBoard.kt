@@ -36,6 +36,8 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 
+private const val MAX_HANZI_COUNT_TO_WRAP = 4
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HanziBoard(
@@ -136,13 +138,24 @@ private fun BasicFields(hanziItem: HanziItem) {
         backgroundColor = MaterialTheme.colors.primary,
         elevation = 8.dp
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            HanziText(modifier = Modifier.align(Alignment.Bottom), hanziItem.name)
-            PinyinText(modifier = Modifier.align(Alignment.Bottom), pinyin = hanziItem.pinyin)
+        if (hanziItem.name.length > MAX_HANZI_COUNT_TO_WRAP) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                HanziText(modifier = Modifier, hanziItem.name)
+                PinyinText(modifier = Modifier.padding(start = 4.dp), pinyin = hanziItem.pinyin)
+            }
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                HanziText(modifier = Modifier.align(Alignment.Bottom), hanziItem.name)
+                PinyinText(modifier = Modifier.align(Alignment.Bottom), pinyin = hanziItem.pinyin)
+            }
         }
     }
 }
