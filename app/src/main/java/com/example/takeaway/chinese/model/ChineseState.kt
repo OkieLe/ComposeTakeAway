@@ -1,24 +1,23 @@
 package com.example.takeaway.chinese.model
 
 import com.example.takeaway.common.UiState
-import com.example.takeaway.common.model.HanziBrief
 import com.example.takeaway.common.model.HanziItem
 
 data class ChineseState(
-    val searchStatus: SearchStatus = SearchStatus.Result(),
-    val moreResultState: MoreResultState = MoreResultState(),
+    val searchState: SearchState = SearchState.Result(),
+    val allItems: List<HanziItem> = emptyList(),
     val searchMode: SearchMode = SearchMode.ZiMode
 ) : UiState
 
-sealed interface SearchStatus {
-    object Loading : SearchStatus
-    data class Result(val items: List<HanziItem> = emptyList()) : SearchStatus
+sealed interface SearchState {
+    object Loading : SearchState
+    data class Result(
+        val items: List<HanziItem> = emptyList(),
+        val page: Int = 0,
+        val hasPrevious: Boolean = false,
+        val hasNext: Boolean = false
+    ) : SearchState
 }
-
-data class MoreResultState(
-    val showPartial: Boolean = false,
-    val allItems: List<HanziBrief> = emptyList()
-)
 
 sealed interface SearchMode {
     object ZiMode : SearchMode

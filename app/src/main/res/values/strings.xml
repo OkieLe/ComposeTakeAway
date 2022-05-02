@@ -7,6 +7,9 @@
     <string name="about_label">About</string>
 
     <string name="clear_label">Clear</string>
+    <string name="label_previous">Previous</string>
+    <string name="label_next">Next</string>
+
     <string name="search_box_hint">hello</string>
 
     <string name="label_synonyms">Synonyms</string>
@@ -23,8 +26,7 @@
     <string name="label_zi_old_word">古形：</string>
     <string name="label_ci_derivation">词源</string>
     <string name="label_hanzi_explanation">解释</string>
-    <string name="more_label">更多</string>
     <string name="error_message_invalid_input">输入无效，只能输入拼音或汉字</string>
     <string name="error_message_hanzi_not_found">没找到改字或词</string>
-    <string name="message_hanzi_shown_partially">共%d个结果，点击右上角"展开"按钮查看更多结果</string>
+    <string name="message_hanzi_shown_partially">找到%d个结果，点击"翻页"查看更多结果</string>
 </resources>
