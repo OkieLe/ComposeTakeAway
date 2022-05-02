@@ -29,12 +29,19 @@ android {
         def keystorePropertiesFile = rootProject.file('keystore/key.properties')
         if (keystorePropertiesFile.exists()) {
             keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-        }
-        config {
-            storeFile rootProject.file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePass']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPass']
+            config {
+                storeFile rootProject.file('keystore/android.keystore')
+                storePassword keystoreProperties['storePass']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPass']
+            }
+        } else {
+            config {
+                storeFile rootProject.file('keystore/android.keystore')
+                storePassword System.env['KEY_STORE_PASS']
+                keyAlias System.env['KEY_ALIAS']
+                keyPassword System.env['KEY_PASS']
+            }
         }
     }
 
