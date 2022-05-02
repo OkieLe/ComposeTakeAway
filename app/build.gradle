@@ -51,7 +51,7 @@ android {
             testCoverageEnabled true
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

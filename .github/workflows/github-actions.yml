@@ -30,4 +30,11 @@ jobs:
       - name: Run all unit tests
         run: ./gradlew testDebugUnitTest
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleRelease
+      - name: Archive outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/mapping/release/mapping.txt
