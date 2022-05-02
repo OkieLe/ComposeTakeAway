@@ -38,9 +38,9 @@ android {
         } else {
             config {
                 storeFile rootProject.file('keystore/android.keystore')
-                storePassword System.env['KEY_STORE_PASS']
-                keyAlias System.env['KEY_ALIAS']
-                keyPassword System.env['KEY_PASS']
+                storePassword System.getenv('storePass')
+                keyAlias System.getenv('keyAlias')
+                keyPassword System.getenv('keyPass')
             }
         }
     }
@@ -71,7 +71,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion kotlin_version
     }
     packagingOptions {
         resources {
