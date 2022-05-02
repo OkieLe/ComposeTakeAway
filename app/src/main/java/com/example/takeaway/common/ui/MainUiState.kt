@@ -19,6 +19,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.takeaway.R
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,6 +41,7 @@ class MainUiState(
     private val resources: Resources,
     private val coroutineScope: CoroutineScope
 ) {
+
     val bottomBarTabs = Screen.items
     private val bottomBarRoutes = bottomBarTabs.map { it.route }
 
@@ -49,19 +52,42 @@ class MainUiState(
     private val currentRoute: String?
         get() = navController.currentDestination?.route
 
+    private var waitEndAnimationJob: Job? = null
     fun navigateUp() {
         navController.navigateUp()
     }
 
     fun openTab(route: String) {
-        if (route != currentRoute) {
-            navController.navigate(route) {
-                popUpTo(findStartDestination(navController.graph).id) {
-                    saveState = true
+        val navigate = {
+            if (route != currentRoute) {
+                navController.navigate(route) {
+                    popUpTo(findStartDestination(navController.graph).id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
                 }
-                launchSingleTop = true
-                restoreState = true
             }
+        }
+        // if we're already waiting for an other screen to start appearing
+        // we need to cancel that job
+        waitEndAnimationJob?.cancel()
+        if (navController.visibleEntries.value.count() > 1) {
+            // if navController.visibleEntries has more than one item
+            // we need to wait animation to finish before starting next navigation
+            waitEndAnimationJob = coroutineScope.launch {
+                navController.visibleEntries
+                    .collect { visibleEntries ->
+                        if (visibleEntries.count() == 1) {
+                            navigate()
+                            waitEndAnimationJob = null
+                            cancel()
+                        }
+                    }
+            }
+        } else {
+            // otherwise we can navigate instantly
+            navigate()
         }
     }
 
