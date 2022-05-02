@@ -10,6 +10,8 @@
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>
 
+    <string name="about_message">Dictionary\nfor\nEnglish(online)\nand\nHanzi(offline)</string>
+
     <string name="search_box_hint">hello</string>
 
     <string name="label_synonyms">Synonyms</string>
