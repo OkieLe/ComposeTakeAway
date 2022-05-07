@@ -16,8 +16,9 @@ abstract class HanziDatabase : RoomDatabase() {
     abstract fun chengyuDao(): ChengyuDao
 
     companion object {
-        private const val DATABASE_NAME = "chinese.db"
-        @Volatile private var instance: HanziDatabase? = null
+        private const val DATABASE_NAME = "hanzi.db"
+        @Volatile
+        private var instance: HanziDatabase? = null
 
         fun getInstance(context: Context): HanziDatabase {
             return instance ?: synchronized(this) {
