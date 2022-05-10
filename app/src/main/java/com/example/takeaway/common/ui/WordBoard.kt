@@ -92,7 +92,7 @@ private fun BasicFields(wordInfo: WordItem) {
 private fun MeaningsField(meanings: List<MeaningItem>, showMore: Boolean) {
     meanings.forEach {
         Spacer(modifier = Modifier.height(12.dp))
-        Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
+        SelectableCard(modifier = Modifier.padding(horizontal = 4.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

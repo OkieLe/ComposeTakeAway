@@ -163,7 +163,7 @@ private fun BasicFields(hanziItem: HanziItem) {
 @Composable
 private fun CommonField(label: String, content: String) {
     Spacer(modifier = Modifier.height(12.dp))
-    Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
+    SelectableCard(modifier = Modifier.padding(horizontal = 4.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -191,7 +191,7 @@ fun CiExtraFields(extra: ExtraInfo.Ci) {
 @Composable
 fun ZiExtraFields(extra: ExtraInfo.Zi) {
     Spacer(modifier = Modifier.height(12.dp))
-    Card(modifier = Modifier.padding(horizontal = 4.dp), elevation = 4.dp) {
+    SelectableCard(modifier = Modifier.padding(horizontal = 4.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
