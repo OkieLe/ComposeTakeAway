@@ -22,7 +22,7 @@ Pros：
 
 Cons：
 
-- priview支持，但不完善(每次修改重新build)
+- preview支持，但不完善(每次修改重新build)
 - 实现不透明(编译器-编译时处理)
 - recomposition 机制复杂
 
