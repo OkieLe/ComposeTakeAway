@@ -2,17 +2,22 @@ package com.example.takeaway.search
 
 import androidx.lifecycle.viewModelScope
 import com.example.takeaway.common.BaseViewModel
-import com.example.takeaway.data.WordsRepository
-import com.example.takeaway.data.model.WordInfo
-import com.example.takeaway.data.model.onError
-import com.example.takeaway.data.model.onSuccess
 import com.example.takeaway.common.mapper.WordItemMapper
+import com.example.takeaway.data.model.WordInfo
+import com.example.takeaway.domain.base.onError
+import com.example.takeaway.domain.base.onSuccess
+import com.example.takeaway.domain.base.successOr
+import com.example.takeaway.domain.words.IsWordStarred
+import com.example.takeaway.domain.words.SearchWord
+import com.example.takeaway.domain.words.StarWord
+import com.example.takeaway.domain.words.UnStarWord
 import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
 import com.example.takeaway.search.model.SearchStatus
 import com.example.takeaway.search.model.StarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,7 +25,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val wordItemMapper: WordItemMapper,
-    private val wordsRepository: WordsRepository
+    private val starWord: StarWord,
+    private val unStarWord: UnStarWord,
+    private val searchWord: SearchWord,
+    private val isWordStarred: IsWordStarred
 ): BaseViewModel<SearchAction, SearchState, SearchEvent>() {
 
     private val currentWordInfo: MutableList<WordInfo> = mutableListOf()
@@ -30,13 +38,14 @@ class SearchViewModel @Inject constructor(
 
     override fun submit(action: SearchAction) {
         when (action) {
-            is SearchAction.Search -> searchWord(action.word)
+            is SearchAction.Search -> onSearchWord(action.word)
             SearchAction.Star -> starWord()
             SearchAction.UnStar -> unStarWord()
+            is SearchAction.Play -> {}
         }
     }
 
-    private fun searchWord(word: String) {
+    private fun onSearchWord(word: String) {
         if (word.isBlank()) {
             updateState(SearchState(SearchStatus.Result()))
             return
@@ -44,18 +53,19 @@ class SearchViewModel @Inject constructor(
         val trimmedWord = word.trim()
         updateState(SearchState(status = SearchStatus.Loading))
         viewModelScope.launch {
-            wordsRepository.searchWord(word = trimmedWord)
-                .onSuccess {
+            searchWord(trimmedWord).collectLatest { result ->
+                result.onSuccess {
                     currentWordInfo.clear()
                     currentWordInfo.addAll(it)
                     val wordItems = it.map(wordItemMapper::fromInfo)
                     updateState(SearchState(status = SearchStatus.Result(wordItems)))
                     viewModelScope.launch {
+                        val starred = isWordStarred(trimmedWord).successOr(false)
                         updateState(
                             state.value.copy(
                                 starState = StarState(
                                     enabled = true,
-                                    wordsRepository.isWordStarred(trimmedWord)
+                                    starred = starred
                                 )
                             )
                         )
@@ -66,19 +76,20 @@ class SearchViewModel @Inject constructor(
                     updateState(SearchState(status = SearchStatus.Result(), StarState()))
                     sendEvent(SearchEvent.ShowError(type))
                 }
+            }
         }
     }
 
     private fun starWord() {
         viewModelScope.launch {
-            wordsRepository.starWord(currentWordInfo)
+            starWord(currentWordInfo)
             updateState(state.value.copy(starState = StarState(enabled = true, starred = true)))
         }
     }
 
     private fun unStarWord() {
         viewModelScope.launch {
-            wordsRepository.unStarWord(currentWordInfo[0].word)
+            unStarWord(currentWordInfo[0].word)
             updateState(state.value.copy(starState = StarState(enabled = true, starred = false)))
         }
     }

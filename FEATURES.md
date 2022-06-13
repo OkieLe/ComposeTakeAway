@@ -12,5 +12,6 @@
 
 - English
   - Play audio for the word
-  - Translation to Chinese
   - A widget display starred words
+  - Translation to Chinese
+  - Export/Import starred words

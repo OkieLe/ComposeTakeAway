@@ -2,6 +2,8 @@ package com.example.takeaway.starred
 
 import androidx.lifecycle.viewModelScope
 import com.example.takeaway.common.BaseViewModel
+import com.example.takeaway.domain.base.onSuccess
+import com.example.takeaway.domain.words.GetStarredWords
 import com.example.takeaway.starred.model.StarredAction
 import com.example.takeaway.starred.model.StarredEvent
 import com.example.takeaway.starred.model.StarredState
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StarredViewModel @Inject constructor(
-    private val wordsRepository: com.example.takeaway.data.WordsRepository
+    private val getStarredWords: GetStarredWords
 ): BaseViewModel<StarredAction, StarredState, StarredEvent>() {
 
     override val initialState: StarredState
@@ -28,10 +30,12 @@ class StarredViewModel @Inject constructor(
 
     private fun loadWords() {
         viewModelScope.launch {
-            wordsRepository.getStarredWords().collectLatest { words ->
-                updateState(state.value.copy(status = StarredStatus.Result(
-                    words.map { StarredWord(it) }
-                )))
+            getStarredWords(Unit).collectLatest { result ->
+                result.onSuccess { words ->
+                    updateState(state.value.copy(status = StarredStatus.Result(
+                        words.map { StarredWord(it) }
+                    )))
+                }
             }
         }
     }

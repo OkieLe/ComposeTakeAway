@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "TakeAwaySample"
 include ':app'
 include ':data'
+include ':domain'

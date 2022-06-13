@@ -3,8 +3,11 @@ package com.example.takeaway.word
 import androidx.lifecycle.viewModelScope
 import com.example.takeaway.common.BaseViewModel
 import com.example.takeaway.common.mapper.WordItemMapper
-import com.example.takeaway.data.WordsRepository
 import com.example.takeaway.data.model.WordInfo
+import com.example.takeaway.domain.base.onError
+import com.example.takeaway.domain.base.onSuccess
+import com.example.takeaway.domain.words.GetWord
+import com.example.takeaway.domain.words.UnStarWord
 import com.example.takeaway.word.model.WordAction
 import com.example.takeaway.word.model.WordError
 import com.example.takeaway.word.model.WordEvent
@@ -16,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WordViewModel @Inject constructor(
     private val wordItemMapper: WordItemMapper,
-    private val wordsRepository: WordsRepository
+    private val getWord: GetWord,
+    private val unStarWord: UnStarWord,
 ): BaseViewModel<WordAction, WordState, WordEvent>() {
 
     private val currentWordInfo: MutableList<WordInfo> = mutableListOf()
@@ -28,6 +32,7 @@ class WordViewModel @Inject constructor(
         when (action) {
             is WordAction.LoadInfo -> loadWord(action.word)
             WordAction.UnStar -> unStarWord()
+            is WordAction.Play -> {}
         }
     }
 
@@ -38,22 +43,26 @@ class WordViewModel @Inject constructor(
         }
         val trimmedWord = word.trim()
         viewModelScope.launch {
-            wordsRepository.getWord(word = trimmedWord).let {
-                if (it.isEmpty()) {
-                    sendEvent(WordEvent.ShowError(WordError.NO_INFO))
-                } else {
-                    currentWordInfo.clear()
-                    currentWordInfo.addAll(it)
-                    val wordItems = it.map(wordItemMapper::fromInfo)
-                    updateState(WordState(wordItems, starred = true))
+            getWord(trimmedWord)
+                .onSuccess {
+                    if (it.isEmpty()) {
+                        sendEvent(WordEvent.ShowError(WordError.NO_INFO))
+                    } else {
+                        currentWordInfo.clear()
+                        currentWordInfo.addAll(it)
+                        val wordItems = it.map(wordItemMapper::fromInfo)
+                        updateState(WordState(wordItems, starred = true))
+                    }
                 }
-            }
+                .onError { _, _ ->
+                    sendEvent(WordEvent.ShowError(WordError.NO_INFO))
+                }
         }
     }
 
     private fun unStarWord() {
         viewModelScope.launch {
-            wordsRepository.unStarWord(currentWordInfo[0].word)
+            unStarWord(currentWordInfo[0].word)
             updateState(state.value.copy(starred = false))
         }
     }

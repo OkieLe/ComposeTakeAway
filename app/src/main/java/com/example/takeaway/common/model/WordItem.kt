@@ -1,5 +1,7 @@
 package com.example.takeaway.common.model
 
+import com.example.takeaway.design.PlayState
+
 data class WordItem(
     val text: String,
     val phonetics: List<PhoneticItem>,
@@ -8,7 +10,8 @@ data class WordItem(
 
 data class PhoneticItem(
     val audio: String,
-    val text: String
+    val text: String,
+    val playState: PlayState
 )
 
 data class MeaningItem(

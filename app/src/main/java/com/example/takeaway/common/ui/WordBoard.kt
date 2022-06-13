@@ -26,6 +26,7 @@ import com.example.takeaway.common.model.DefinitionItem
 import com.example.takeaway.common.model.MeaningItem
 import com.example.takeaway.common.model.PhoneticItem
 import com.example.takeaway.common.model.WordItem
+import com.example.takeaway.design.PlayIcon
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -36,7 +37,7 @@ private const val MAX_DEFINITION_COUNT = 5
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WordBoard(wordItems: List<WordItem>, showMore: Boolean = false) {
+fun WordBoard(wordItems: List<WordItem>, showMore: Boolean = false, onPlayClick: (String) -> Unit) {
     val pagerState = rememberPagerState()
     Column {
         if (wordItems.size > 1) {
@@ -50,39 +51,42 @@ fun WordBoard(wordItems: List<WordItem>, showMore: Boolean = false) {
             )
         }
         HorizontalPager(count = wordItems.size, state = pagerState) { page ->
-            WordInfoItem(wordItems[page], showMore)
+            WordInfoItem(wordItems[page], showMore, onPlayClick)
         }
     }
 }
 
 @Composable
-private fun WordInfoItem(wordInfo: WordItem, showMore: Boolean) {
+private fun WordInfoItem(wordInfo: WordItem, showMore: Boolean, onPlayClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        BasicFields(wordInfo)
+        BasicFields(wordInfo, onPlayClick)
         MeaningsField(wordInfo.meanings, showMore)
     }
 }
 
 @Composable
-private fun BasicFields(wordInfo: WordItem) {
+private fun BasicFields(wordInfo: WordItem, onPlayClick: (String) -> Unit) {
     Card(
         modifier = Modifier.padding(horizontal = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
         elevation = 8.dp
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            WordText(modifier = Modifier.align(Alignment.Bottom), wordInfo.text)
+            WordText(modifier = Modifier.align(Alignment.Start), wordInfo.text)
             wordInfo.phonetics.forEach {
-                PhoneticText(modifier = Modifier.align(Alignment.Bottom), phonetic = it)
+                PhoneticText(
+                    modifier = Modifier.align(Alignment.Start), phonetic = it,
+                    onPlayClick = onPlayClick
+                )
             }
         }
     }
@@ -161,12 +165,27 @@ private fun PartOfSpeech(partOfSpeech: String) {
 }
 
 @Composable
-private fun PhoneticText(modifier: Modifier, phonetic: PhoneticItem) {
-    Text(
-        modifier = modifier.padding(all = 4.dp),
-        text = phonetic.text,
-        style = MaterialTheme.typography.body1
-    )
+private fun PhoneticText(
+    modifier: Modifier, phonetic: PhoneticItem,
+    onPlayClick: (String) -> Unit = {}
+) {
+    Row {
+        PlayIcon(
+            modifier = modifier
+                .padding(top = 4.dp, start = 4.dp)
+                .align(Alignment.CenterVertically),
+            mediaUrl = phonetic.text,
+            state = phonetic.playState,
+            onPlayClick = onPlayClick
+        )
+        Text(
+            modifier = modifier
+                .align(Alignment.CenterVertically)
+                .padding(all = 4.dp),
+            text = phonetic.text,
+            style = MaterialTheme.typography.body1
+        )
+    }
 }
 
 @Composable

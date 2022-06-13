@@ -51,7 +51,9 @@ private fun WordScreenContent(
         modifier = Modifier.fillMaxSize()
     ) {
         TopBar(word, state.starred, actor, uiState)
-        WordBoard(state.wordItems, showMore = true)
+        WordBoard(state.wordItems, showMore = true) {
+            actor(WordAction.Play(it))
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 package com.example.takeaway.search.model
 
 import com.example.takeaway.common.UiEvent
-import com.example.takeaway.data.model.ErrorType
+import com.example.takeaway.domain.base.Category
 
 sealed interface SearchEvent: UiEvent {
-    data class ShowError(val error: ErrorType): SearchEvent
+    data class ShowError(val error: Category) : SearchEvent
 }

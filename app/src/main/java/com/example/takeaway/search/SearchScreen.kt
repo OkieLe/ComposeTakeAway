@@ -25,13 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.takeaway.R
+import com.example.takeaway.common.ui.MainUiState
+import com.example.takeaway.common.ui.Screen
 import com.example.takeaway.common.ui.WordBoard
+import com.example.takeaway.common.ui.rememberMainUiState
 import com.example.takeaway.design.IconMenu
 import com.example.takeaway.design.LoadingIndicator
 import com.example.takeaway.design.SearchTextField
-import com.example.takeaway.common.ui.MainUiState
-import com.example.takeaway.common.ui.Screen
-import com.example.takeaway.common.ui.rememberMainUiState
 import com.example.takeaway.search.model.SearchAction
 import com.example.takeaway.search.model.SearchEvent
 import com.example.takeaway.search.model.SearchState
@@ -75,7 +75,9 @@ private fun SearchScreenContent(
         TopBar(state.starState, actor, uiState)
         when (val status = state.status) {
             SearchStatus.Loading -> LoadingIndicator()
-            is SearchStatus.Result -> WordBoard(status.wordItems)
+            is SearchStatus.Result -> WordBoard(status.wordItems) {
+                actor(SearchAction.Play(it))
+            }
         }
     }
 }
