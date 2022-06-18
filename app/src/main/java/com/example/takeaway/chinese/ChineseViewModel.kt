@@ -10,7 +10,9 @@ import com.example.takeaway.chinese.model.SearchState
 import com.example.takeaway.common.BaseViewModel
 import com.example.takeaway.common.mapper.HanziItemMapper
 import com.example.takeaway.common.model.HanziItem
-import com.example.takeaway.data.HanziRepository
+import com.example.takeaway.domain.base.onSuccess
+import com.example.takeaway.domain.hanzi.QueryCi
+import com.example.takeaway.domain.hanzi.QueryZi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +21,8 @@ import kotlin.math.min
 
 @HiltViewModel
 class ChineseViewModel @Inject constructor(
-    private val hanziRepository: HanziRepository,
+    private val queryZi: QueryZi,
+    private val queryCi: QueryCi,
     private val hanziItemMapper: HanziItemMapper
 ): BaseViewModel<ChineseAction, ChineseState, ChineseEvent>() {
 
@@ -56,7 +59,7 @@ class ChineseViewModel @Inject constructor(
     private fun searchZi(word: String) {
         viewModelScope.launch {
             updateState(state.value.copy(searchState = SearchState.Loading, allItems = emptyList()))
-            hanziRepository.searchZi(word).let {
+            queryZi(word).onSuccess {
                 when {
                     it.isNotEmpty() -> updateSearchResult(it.map(hanziItemMapper::fromZiInfo))
                     else -> {
@@ -71,7 +74,7 @@ class ChineseViewModel @Inject constructor(
     private fun searchCi(word: String) {
         viewModelScope.launch {
             updateState(state.value.copy(searchState = SearchState.Loading, allItems = emptyList()))
-            hanziRepository.searchCi(word).let {
+            queryCi(word).onSuccess {
                 when {
                     it.isNotEmpty() -> updateSearchResult(it.map(hanziItemMapper::fromCiInfo))
                     else -> {
