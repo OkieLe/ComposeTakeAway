@@ -10,7 +10,6 @@ import com.example.takeaway.data.model.Definition
 import com.example.takeaway.data.model.Meaning
 import com.example.takeaway.data.model.Phonetic
 import com.example.takeaway.data.model.WordInfo
-import com.example.takeaway.design.PlayState
 import javax.inject.Inject
 
 class WordItemMapper @Inject constructor() {
@@ -36,8 +35,7 @@ class WordItemMapper @Inject constructor() {
     private fun toPhoneticItem(phonetic: Phonetic): PhoneticItem {
         return PhoneticItem(
             audio = phonetic.audio.orEmpty(),
-            text = phonetic.text.orEmpty(),
-            playState = if (phonetic.text.isNullOrBlank()) PlayState.DISABLE else PlayState.IDLE
+            text = phonetic.text.orEmpty()
         )
     }
 

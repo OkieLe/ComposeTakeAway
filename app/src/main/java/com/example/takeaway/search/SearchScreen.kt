@@ -75,9 +75,7 @@ private fun SearchScreenContent(
         TopBar(state.starState, actor, uiState)
         when (val status = state.status) {
             SearchStatus.Loading -> LoadingIndicator()
-            is SearchStatus.Result -> WordBoard(status.wordItems) {
-                actor(SearchAction.Play(it))
-            }
+            is SearchStatus.Result -> WordBoard(status.wordItems)
         }
     }
 }

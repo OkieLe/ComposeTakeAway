@@ -9,8 +9,8 @@ data class SearchState(
 ): UiState
 
 sealed interface SearchStatus {
-    object Loading: SearchStatus
-    data class Result(val wordItems: List<WordItem> = emptyList()): SearchStatus
+    object Loading : SearchStatus
+    data class Result(val wordItems: List<WordItem> = emptyList()) : SearchStatus
 }
 
 data class StarState(

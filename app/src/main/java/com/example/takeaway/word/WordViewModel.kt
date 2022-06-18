@@ -32,7 +32,6 @@ class WordViewModel @Inject constructor(
         when (action) {
             is WordAction.LoadInfo -> loadWord(action.word)
             WordAction.UnStar -> unStarWord()
-            is WordAction.Play -> {}
         }
     }
 

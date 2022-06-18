@@ -4,12 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.PlayDisabled
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
@@ -17,36 +17,31 @@ import androidx.compose.ui.Modifier
 fun PlayIcon(
     modifier: Modifier = Modifier,
     mediaUrl: String = "",
-    state: PlayState = PlayState.IDLE,
-    onPlayClick: (String) -> Unit
 ) {
+    val playbackState = remember {
+        mutableStateOf(if (mediaUrl.isBlank()) PlaybackState.DISABLE else PlaybackState.IDLE)
+    }
+    val audioPlayer = LocalAudioPlayer.current
     Icon(
         modifier = modifier.clickable(
+            enabled = playbackState.value == PlaybackState.IDLE,
             indication = null,
             interactionSource = remember { MutableInteractionSource() }
         ) {
-            onPlayClick(mediaUrl)
+            audioPlayer.play(mediaUrl) {
+                playbackState.value = it
+            }
         },
         contentDescription = mediaUrl,
-        imageVector = when (state) {
-            PlayState.IDLE -> Icons.Filled.PlayCircle
-            PlayState.BUFFERING -> Icons.Filled.PlayCircle
-            PlayState.PLAYING -> Icons.Filled.VolumeUp
-            PlayState.ERROR -> Icons.Filled.PlayCircle
-            PlayState.DISABLE -> Icons.Filled.PlayDisabled
+        imageVector = when (playbackState.value) {
+            PlaybackState.IDLE, PlaybackState.BUFFERING, PlaybackState.READY -> Icons.Filled.PlayCircle
+            PlaybackState.PLAYING -> Icons.Filled.VolumeUp
+            PlaybackState.DISABLE -> Icons.Filled.PlayDisabled
         },
-        tint = when (state) {
-            PlayState.BUFFERING -> LocalContentColor.current.copy(alpha = 0.5f)
-            PlayState.ERROR -> MaterialTheme.colors.error
+        tint = when (playbackState.value) {
+            PlaybackState.BUFFERING, PlaybackState.READY -> LocalContentColor.current.copy(alpha = 0.3f)
+            PlaybackState.DISABLE -> LocalContentColor.current.copy(alpha = 0.5f)
             else -> LocalContentColor.current
         }
     )
-}
-
-enum class PlayState {
-    IDLE,
-    BUFFERING,
-    PLAYING,
-    ERROR,
-    DISABLE
 }

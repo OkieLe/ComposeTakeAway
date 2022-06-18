@@ -41,7 +41,6 @@ class SearchViewModel @Inject constructor(
             is SearchAction.Search -> onSearchWord(action.word)
             SearchAction.Star -> starWord()
             SearchAction.UnStar -> unStarWord()
-            is SearchAction.Play -> {}
         }
     }
 

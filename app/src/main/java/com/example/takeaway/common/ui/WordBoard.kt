@@ -37,7 +37,10 @@ private const val MAX_DEFINITION_COUNT = 5
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WordBoard(wordItems: List<WordItem>, showMore: Boolean = false, onPlayClick: (String) -> Unit) {
+fun WordBoard(
+    wordItems: List<WordItem>,
+    showMore: Boolean = false
+) {
     val pagerState = rememberPagerState()
     Column {
         if (wordItems.size > 1) {
@@ -51,26 +54,29 @@ fun WordBoard(wordItems: List<WordItem>, showMore: Boolean = false, onPlayClick:
             )
         }
         HorizontalPager(count = wordItems.size, state = pagerState) { page ->
-            WordInfoItem(wordItems[page], showMore, onPlayClick)
+            WordInfoItem(wordItems[page], showMore)
         }
     }
 }
 
 @Composable
-private fun WordInfoItem(wordInfo: WordItem, showMore: Boolean, onPlayClick: (String) -> Unit) {
+private fun WordInfoItem(
+    wordInfo: WordItem,
+    showMore: Boolean
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        BasicFields(wordInfo, onPlayClick)
+        BasicFields(wordInfo)
         MeaningsField(wordInfo.meanings, showMore)
     }
 }
 
 @Composable
-private fun BasicFields(wordInfo: WordItem, onPlayClick: (String) -> Unit) {
+private fun BasicFields(wordInfo: WordItem) {
     Card(
         modifier = Modifier.padding(horizontal = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
@@ -84,8 +90,7 @@ private fun BasicFields(wordInfo: WordItem, onPlayClick: (String) -> Unit) {
             WordText(modifier = Modifier.align(Alignment.Start), wordInfo.text)
             wordInfo.phonetics.forEach {
                 PhoneticText(
-                    modifier = Modifier.align(Alignment.Start), phonetic = it,
-                    onPlayClick = onPlayClick
+                    modifier = Modifier.align(Alignment.Start), phonetic = it
                 )
             }
         }
@@ -165,18 +170,13 @@ private fun PartOfSpeech(partOfSpeech: String) {
 }
 
 @Composable
-private fun PhoneticText(
-    modifier: Modifier, phonetic: PhoneticItem,
-    onPlayClick: (String) -> Unit = {}
-) {
+private fun PhoneticText(modifier: Modifier, phonetic: PhoneticItem) {
     Row {
         PlayIcon(
             modifier = modifier
                 .padding(top = 4.dp, start = 4.dp)
                 .align(Alignment.CenterVertically),
-            mediaUrl = phonetic.text,
-            state = phonetic.playState,
-            onPlayClick = onPlayClick
+            mediaUrl = phonetic.audio
         )
         Text(
             modifier = modifier

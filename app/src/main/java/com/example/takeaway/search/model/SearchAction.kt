@@ -6,5 +6,4 @@ sealed interface SearchAction: UiAction {
     data class Search(val word: String): SearchAction
     object Star: SearchAction
     object UnStar: SearchAction
-    data class Play(val mediaUrl: String) : SearchAction
 }

@@ -9,7 +9,6 @@ import com.example.takeaway.data.model.Definition
 import com.example.takeaway.data.model.Meaning
 import com.example.takeaway.data.model.Phonetic
 import com.example.takeaway.data.model.WordInfo
-import com.example.takeaway.design.PlayState
 import io.kotest.assertions.eq.eq
 import org.junit.Test
 
@@ -45,7 +44,7 @@ class WordItemMapperTest {
             ))
         ),
         phonetics = listOf(
-            PhoneticItem(text = "həˈləʊ", audio = "", playState = PlayState.DISABLE)
+            PhoneticItem(text = "həˈləʊ", audio = "")
         )
     )
 
