@@ -98,7 +98,10 @@ private fun TopBar(
             imageVector = if (isStarred) {
                 Icons.Outlined.Favorite
             } else Icons.Outlined.FavoriteBorder,
-            description = stringResource(id = R.string.star_label),
+            description = stringResource(
+                id = if (isStarred) R.string.unstar_button
+                else R.string.star_button
+            ),
             enabled = isStarred,
             onClick = unStarClicker
         )

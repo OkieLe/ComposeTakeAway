@@ -2,10 +2,12 @@
     <string name="app_name">Dictionary</string>
     <string name="search_label">Search</string>
     <string name="chinese_label">Hanzi</string>
-    <string name="star_label">Starred</string>
+    <string name="star_label">Starred words</string>
     <string name="word_label">Word</string>
     <string name="about_label">About</string>
 
+    <string name="star_button">Star</string>
+    <string name="unstar_button">Unstar</string>
     <string name="clear_label">Clear</string>
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>

@@ -114,7 +114,10 @@ private fun TopBar(starState: StarState, actor: (SearchAction) -> Unit, uiState:
             imageVector = if (starState.enabled && starState.starred) {
                 Icons.Outlined.Favorite
             } else Icons.Outlined.FavoriteBorder,
-            description = stringResource(id = R.string.star_label),
+            description = stringResource(
+                id = if (starState.enabled && starState.starred) R.string.unstar_button
+                else R.string.star_button
+            ),
             enabled = starState.enabled,
             onClick = if (starState.starred) unStarClicker else starClicker
         )
