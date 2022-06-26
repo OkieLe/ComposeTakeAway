@@ -11,6 +11,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -31,6 +32,7 @@ import com.example.takeaway.design.LocalAudioPlayer
 import com.example.takeaway.design.theme.TakeAwaySampleTheme
 import com.example.takeaway.search.SearchScreen
 import com.example.takeaway.starred.StarredScreen
+import com.example.takeaway.widget.StarredWordsWidget
 import com.example.takeaway.word.WordScreen
 import com.google.android.exoplayer2.ExoPlayer
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,6 +73,11 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(Screen.About.route) { AboutScreen() }
                         }
+                    }
+                }
+                LaunchedEffect(intent) {
+                    StarredWordsWidget.parseCurrentWord(intent).takeIf { it.isNotBlank() }?.let {
+                        uiState.openScreen(Screen.Word.route + "/$it")
                     }
                 }
             }

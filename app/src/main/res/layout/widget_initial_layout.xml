@@ -10,6 +10,5 @@
         android:gravity="center"
         android:textSize="@dimen/widget_word_text_size"
         android:textColor="@color/purple_500"
-        android:textStyle="bold"
         android:text="@string/search_box_hint"/>
 </LinearLayout>
