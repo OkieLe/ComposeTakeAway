@@ -137,7 +137,7 @@ class StarredWordsWidget : GlanceAppWidget(errorUiLayout = R.layout.widget_error
 
 class RefreshWordActionCallback : ActionCallback {
 
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         val word = getNewWord(context)
         val widgetId = StarredWordsWidget.getWidgetId(glanceId)
         updateAppWidgetState(

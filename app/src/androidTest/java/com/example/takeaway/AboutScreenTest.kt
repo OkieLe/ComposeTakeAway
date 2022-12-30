@@ -13,7 +13,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 
+/**
+ * Test on Pixel 4, API 33
+ */
 class AboutScreenTest {
+
     private val flag = "About"
 
     @get:Rule

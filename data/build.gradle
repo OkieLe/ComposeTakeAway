@@ -9,11 +9,11 @@ apply from: '../jacoco.gradle'
 apply from: '../detekt.gradle'
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         minSdk 27
-        targetSdk 31
+        targetSdk 33
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -40,9 +40,9 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -56,6 +56,6 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.mockk:mockk:1.12.1'
+    testImplementation 'io.mockk:mockk:1.13.3'
     testImplementation 'io.kotest:kotest-assertions-core:5.0.2'
 }
