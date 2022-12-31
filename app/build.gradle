@@ -5,8 +5,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../jacoco.gradle'
-apply from: '../detekt.gradle'
+apply from: '../config/jacoco/module.gradle'
+apply from: '../config/detekt/detekt.gradle'
 
 android {
     compileSdk 33
@@ -48,7 +48,6 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.config
-            testCoverageEnabled true
         }
         release {
             minifyEnabled true
@@ -61,8 +60,8 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
-        freeCompilerArgs += '-Xopt-in=kotlin.Experimental'
+        freeCompilerArgs += '-opt-in=kotlin.RequiresOptIn'
+        freeCompilerArgs += '-opt-in=kotlin.Experimental'
         jvmTarget = '11'
     }
     buildFeatures {

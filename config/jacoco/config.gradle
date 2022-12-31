@@ -1,0 +1,78 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+project.ext.jacocoExcludes = [
+    // android
+    '**/databinding/*Binding.*',
+    '**/R.class',
+    '**/R$*.class',
+    '**/BuildConfig.*',
+    '**/Manifest*.*',
+    '**/*Test*.*',
+    'android/**/*.*',
+    'androidx/**/*.*',
+    // dagger + hilt
+    '**/Hilt_*.*',
+    '**/*_HiltModules*.*',
+    '**/*Module*.*',
+    '**/*Dagger*.*',
+    '**/*_Factory*.*',
+    '**/*_Provide*Factory*.*',
+    '**/*Module_*Factory.class',
+    '**/*_GeneratedInjector.*',
+    '**/Dagger*Component*.*',
+    '**/*MembersInjector*.*',
+    '**/*_MembersInjector.class',
+    'dagger/hilt/**/codegen/*.*',
+    'hilt_aggregated_deps/*.*',
+    // kotlin
+    '**/*MapperImpl*.*',
+    '**/*$ViewInjector*.*',
+    '**/*$ViewBinder*.*',
+    '**/*Component*.*',
+    '**/*BR*.*',
+    '**/*$Lambda$*.*',
+    '**/*Companion*.*',
+    '**/*Extensions*.*',
+    // custom
+    '**/model/**/*.*',
+    '**/design/**/*.*',
+    '**/ui/**/*.*',
+    '**/di/**/*.*',
+    '**/*Application*.*',
+    '**/*Activity*.*'
+]
+
+project.ext.jacocoRules = {
+    rule {
+        element = 'PACKAGE'
+        limit {
+            counter = 'LINE'
+            value = 'COVEREDRATIO'
+            minimum = 0.3
+        }
+        limit {
+            counter = 'BRANCH'
+            value = 'COVEREDRATIO'
+            minimum = 0
+        }
+        limit {
+            counter = 'COMPLEXITY'
+            value = 'COVEREDRATIO'
+            minimum = 0
+        }
+        limit {
+            counter = 'CLASS'
+            value = 'COVEREDRATIO'
+            minimum = 0
+        }
+    }
+}

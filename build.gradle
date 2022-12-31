@@ -24,6 +24,8 @@ plugins {
 //    id 'dagger.hilt.android.plugin' version "$hilt_version" apply false
 }
 
+apply from: 'config/jacoco/project.gradle'
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

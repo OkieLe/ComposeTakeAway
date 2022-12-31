@@ -1,0 +1,88 @@
+apply from: "${rootDir}/config/jacoco/config.gradle"
+
+project.afterEvaluate {
+    def variants = ["debug"]
+
+    variants.collect { variant ->
+        def coverageTaskName = "overall${variant.capitalize()}Coverage"
+        tasks.create(
+            name: coverageTaskName,
+            type: JacocoReport
+        ) {
+            group = "Reporting"
+            description = "Generate overall Jacoco coverage reports for $variant."
+
+            reports {
+                html.required = true
+                xml.required = true
+            }
+
+            def excludes = project.ext.jacocoExcludes
+            def jClasses = subprojects.collect { project ->
+                "${project.buildDir}/intermediates/javac/$variant/classes"
+            }.flatten()
+            def kClasses = subprojects.collect { project ->
+                "${project.buildDir}/tmp/kotlin-classes/$variant"
+            }.flatten()
+
+            def javaClasses = jClasses.collect { path ->
+                fileTree(dir: path, excludes: excludes)
+            }
+            def kotlinClasses = kClasses.collect { path ->
+                fileTree(dir: path, excludes: excludes)
+            }
+            classDirectories.from = files([javaClasses, kotlinClasses])
+
+            def sources = subprojects.collect { project ->
+                ["${project.projectDir}/src/main/java", "${project.projectDir}/src/main/kotlin",
+                 "${project.projectDir}/src/$variant/java", "${project.projectDir}/src/$variant/kotlin"]
+            }.flatten()
+            sourceDirectories.from = files(sources)
+
+            def executions = subprojects.collect { project ->
+                def path = "${project.buildDir}/jacoco/test${variant.capitalize()}UnitTest.exec"
+                if ((new File(path)).exists()) path else null
+            }.flatten()
+            executions.removeAll([null])
+
+            executionData.from = files(executions)
+        }
+
+        // Add unit test coverage verification tasks
+        tasks.create(name: "${coverageTaskName}Verification", type: JacocoCoverageVerification, dependsOn: coverageTaskName) {
+            group = "Reporting"
+            description = "Verifies Jacoco coverage for the ${variant} build."
+            violationRules project.ext.jacocoRules
+
+            def excludes = project.ext.jacocoExcludes
+            def jClasses = subprojects.collect { project ->
+                "${project.buildDir}/intermediates/javac/$variant/classes"
+            }.flatten()
+            def kClasses = subprojects.collect { project ->
+                "${project.buildDir}/tmp/kotlin-classes/$variant"
+            }.flatten()
+
+            def javaClasses = jClasses.collect { path ->
+                fileTree(dir: path, excludes: excludes)
+            }
+            def kotlinClasses = kClasses.collect { path ->
+                fileTree(dir: path, excludes: excludes)
+            }
+            classDirectories.from = files([javaClasses, kotlinClasses])
+
+            def sources = subprojects.collect { project ->
+                ["${project.projectDir}/src/main/java", "${project.projectDir}/src/main/kotlin",
+                 "${project.projectDir}/src/$variant/java", "${project.projectDir}/src/$variant/kotlin"]
+            }.flatten()
+            sourceDirectories.from = files(sources)
+
+            def executions = subprojects.collect { project ->
+                def path = "${project.buildDir}/jacoco/test${variant.capitalize()}UnitTest.exec"
+                if ((new File(path)).exists()) path else null
+            }.flatten()
+            executions.removeAll([null])
+
+            executionData.from = files(executions)
+        }
+    }
+}
